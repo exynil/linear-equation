@@ -21,7 +21,7 @@ function init() {
 	let cols = 3;
 	let scale = 30;
 	cs = new CoordinateSystem(canvas, ctx, scale);
-	soe = new SystemOfEquations(rows, cols, cs.scale, cs.centerX);
+	soe = new SystemOfEquations(rows, cols, cs.scale, cs.centerX, cs.centerY);
 	cp = new ControlPanel(rows, cols);
 
 	cp.updateForm(rows, cols);
@@ -148,14 +148,14 @@ function turnGridOnAndOff() {
 
 function reduceGrid() {
 	cs.reduceGrid();
-	soe.update(cs.scale, cs.centerX);
-	drawWithoutinItialization();
+	soe.update(cs.scale, cs.centerX, cs.centerY);
+	draw();
 }
 
 function increaseGrid() {
 	cs.increaseGrid()
-	soe.update(cs.scale, cs.centerX);
-	drawWithoutinItialization();
+	soe.update(cs.scale, cs.centerX, cs.centerY);
+	draw();
 }
 
 function toggleLineType() {
@@ -168,6 +168,11 @@ function initTestCoefficients() {
 	// Экспорт коэфицентов для тестирования
 	let fields = document.getElementsByClassName('field');
 
+	let symbols = document.getElementsByClassName('symbol');
+
+	symbols[4].value = '>=';
+	symbols[5].value = '>=';
+
 	let fieldValues = [
 		[1, 2, 6],
 		[2, 1, 8],
@@ -176,18 +181,6 @@ function initTestCoefficients() {
 		[1, 0, 0],
 		[0, 1, 0]
 	];
-	// let fieldValues = [
-	// 	[-9, 5, 9],
-	// 	[-1, 7, 4],
-	// 	[-6, -5, 4],
-	// 	[-4, -9, -8],
-	// 	[-1, 4, -10],
-	// 	[-7, -2, 8]
-	// ];
-	// let fieldValues = [
-	// 	[1, 2, 6],
-	// 	[1, 0, 0]
-	// ];
 
 	for (let i = 0; i < fieldValues.length; i++) {
 		for (let j = 0; j < soe.cols; j++) {

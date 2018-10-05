@@ -307,7 +307,7 @@ class CoordinateSystem {
 				} else {
 					this.ctx.textBaseline = 'top';
 				}
-				
+
 				this.ctx.fillStyle = this.pointColor;
 				this.ctx.fillText(length, mouseX + marginLeft, mouseY + marginTop);
 				this.ctx.fillText(coordinates, mouseX + marginLeft, mouseY + marginTop + 20);
@@ -337,11 +337,11 @@ class CoordinateSystem {
 	toggleRuler() {
 		if (this.ruler) {
 			this.ruler = false;
-			this.rulerLength = 0;
-			this.theNumberOfPointsInTheLine = 0;
 		} else {
-			this.rulerPoints.push([]);
 			this.ruler = true;
+			if (this.rulerPoints[this.rulerPoints.length - 1] != 0) {
+				this.rulerPoints.push([]);
+			}
 		}
 	}
 

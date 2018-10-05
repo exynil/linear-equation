@@ -1,9 +1,10 @@
 class SystemOfEquations {
-	constructor(rows, cols, scale, centerX) {
+	constructor(rows, cols, scale, centerX, centerY) {
 		this.rows = rows;
 		this.cols = cols;
 		this.scale = scale;
 		this.centerX = centerX / this.scale;
+		this.centerY = centerY / this.scale;
 		this.coefficients = [];
 		this.symbols = [];
 		this.variables = [];
@@ -61,8 +62,8 @@ class SystemOfEquations {
 			for (let j = beginY; j < endY; j += this.scanScale) {
 				let access = true;
 				for (let k = 0; k < this.coefficients.length; k++) {
-					let x = Math.round((i - this.centerX));
-					let y = Math.round(-(j - this.centerY));
+					let x = Math.round((i - this.centerX * this.scale));
+					let y = Math.round(-(j - this.centerY * this.scale));
 
 					let result = this.coefficients[k][0] * x + this.coefficients[k][1] * y;
 					switch (this.symbols[k]) {

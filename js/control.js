@@ -1,10 +1,9 @@
 // Отслеживание изменения размера окна
 addEventListener('resize', function() {
-	canvas.width = innerWidth;
-	canvas.height = innerHeight;
-	cs.centerX = canvas.width;
-	soe = new SystemOfEquations(soe.rows, soe.cols, cs.scale, cs.centerX);
-	drawWithoutinItialization();
+	cs.centerX = canvas.width = innerWidth;
+	cs.centerY = canvas.height = innerHeight;
+	soe.update(cs.scale, cs.centerX, cs.centerY);
+	draw();
 })
 
 // Отслеживание нажатия клавиш
@@ -46,7 +45,6 @@ function dragElement(elmnt) {
 	function dragMouseDown(e) {
 		if (e.target.textContent == 'drag_indicator') {
 			e = e || window.event;
-			// e.preventDefault();
 			x = e.pageX;
 			y = e.pageY;
 			left = this.offsetLeft;
@@ -59,10 +57,7 @@ function dragElement(elmnt) {
 	}
 
 	function elementDrag(e) {
-		console.log(e.path[0].locaName);
-		console.log(e);
 		e = e || window.event;
-		// e.preventDefault();
 		x = event.pageX - 20;
 		y = event.pageY - 20;
 		elmnt.style.left = x - left + 'px';
