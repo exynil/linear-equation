@@ -2,8 +2,8 @@
 addEventListener('resize', function() {
 	canvas.width = innerWidth;
 	canvas.height = innerHeight;
-	cs.x = canvas.width;
-	soe = new SystemOfEquations(soe.rows, soe.cols, cs.scale, cs.x);
+	cs.centerX = canvas.width;
+	soe = new SystemOfEquations(soe.rows, soe.cols, cs.scale, cs.centerX);
 	drawWithoutinItialization();
 })
 
@@ -25,7 +25,6 @@ addEventListener('keypress', function(event) {
 				break;
 		}
 	}
-	console.log(event);
 })
 
 addEventListener('keydown', function(event) {

@@ -1,7 +1,7 @@
 class CoordinateSystem {
 	constructor(canvas, ctx, scale) {
-		this.x = canvas.width / 2;
-		this.y = canvas.height / 2;
+		this.centerX = canvas.width / 2;
+		this.centerY = canvas.height / 2;
 		this.ctx = ctx;
 		this.canvas = canvas;
 		this.gridStatus = true;
@@ -32,13 +32,13 @@ class CoordinateSystem {
 		this.lineСolors = colors
 	}
 	update(mouseX, mouseY) {
-		this.x = this.canvas.width / 2;
-		this.y = this.canvas.height / 2;
-		if (this.x - Math.round(this.x) == 0) {
-			this.x += 0.5;
+		this.centerX = this.canvas.width / 2;
+		this.centerY = this.canvas.height / 2;
+		if (this.centerX - Math.round(this.centerX) == 0) {
+			this.centerX += 0.5;
 		}
-		if (this.y - Math.round(this.y) == 0) {
-			this.y += 0.5;
+		if (this.centerY - Math.round(this.centerY) == 0) {
+			this.centerY += 0.5;
 		}
 		if (this.gridStatus) {
 			this.drawGrid();
@@ -52,21 +52,21 @@ class CoordinateSystem {
 	drawAxis() {
 		this.ctx.beginPath();
 		this.ctx.save();
-		this.ctx.moveTo(this.x, 0);
-		this.ctx.lineTo(this.x, this.canvas.height);
-		this.ctx.moveTo(0, this.y);
-		this.ctx.lineTo(this.canvas.width, this.y);
+		this.ctx.moveTo(this.centerX, 0);
+		this.ctx.lineTo(this.centerX, this.canvas.height);
+		this.ctx.moveTo(0, this.centerY);
+		this.ctx.lineTo(this.canvas.width, this.centerY);
 		this.ctx.lineWidth = this.axisLineWidth;
 		this.ctx.strokeStyle = this.axisLineColor;
 		this.ctx.stroke();
 		this.ctx.restore();
 		this.ctx.closePath();
 
-		for (let i = this.x % this.scale; i < this.canvas.width; i += this.scale) {
+		for (let i = this.centerX % this.scale; i < this.canvas.width; i += this.scale) {
 			this.ctx.beginPath();
 			this.ctx.save();
-			this.ctx.moveTo(i, this.y - 3);
-			this.ctx.lineTo(i, this.y + 3);
+			this.ctx.moveTo(i, this.centerY - 3);
+			this.ctx.lineTo(i, this.centerY + 3);
 			this.ctx.lineWidth = this.axisLineWidth;
 			this.ctx.strokeStyle = this.axisLineColor;
 			this.ctx.stroke();
@@ -74,11 +74,11 @@ class CoordinateSystem {
 			this.ctx.closePath();
 		}
 
-		for (let i = this.y % this.scale; i < this.canvas.height; i += this.scale) {
+		for (let i = this.centerY % this.scale; i < this.canvas.height; i += this.scale) {
 			this.ctx.beginPath();
 			this.ctx.save();
-			this.ctx.moveTo(this.x - 3, i);
-			this.ctx.lineTo(this.x + 3, i);
+			this.ctx.moveTo(this.centerX - 3, i);
+			this.ctx.lineTo(this.centerX + 3, i);
 			this.ctx.lineWidth = this.axisLineWidth;
 			this.ctx.strokeStyle = this.axisLineColor;
 			this.ctx.stroke();
@@ -88,56 +88,56 @@ class CoordinateSystem {
 	}
 	drawNumbering() {
 		let j = 0;
-		for (let i = 0; i < this.x; i += this.scale) {
+		for (let i = 0; i < this.centerX; i += this.scale) {
 			this.ctx.beginPath();
 			this.ctx.save();
 			this.ctx.textAlign = 'right';
 			this.ctx.textBaseline = "top";
 			this.ctx.font = 'bold 10pt Courier New';
 			this.ctx.fillStyle = this.numberColor;
-			this.ctx.fillText(j++, this.x + i, this.y);
+			this.ctx.fillText(j++, this.centerX + i, this.centerY);
 			this.ctx.restore();
 			this.ctx.closePath();
 		}
 		j = 1;
-		for (let i = this.scale; i < this.x; i += this.scale) {
+		for (let i = this.scale; i < this.centerX; i += this.scale) {
 			this.ctx.beginPath();
 			this.ctx.save();
 			this.ctx.textAlign = 'right';
 			this.ctx.textBaseline = "top";
 			this.ctx.font = 'bold 10pt Courier New';
 			this.ctx.fillStyle = this.numberColor;
-			this.ctx.fillText(-j++, this.x - i, this.y);
+			this.ctx.fillText(-j++, this.centerX - i, this.centerY);
 			this.ctx.restore();
 			this.ctx.closePath();
 		}
 		j = 1;
-		for (let i = this.scale; i < this.y; i += this.scale) {
+		for (let i = this.scale; i < this.centerY; i += this.scale) {
 			this.ctx.beginPath();
 			this.ctx.save();
 			this.ctx.textAlign = 'right';
 			this.ctx.textBaseline = "top";
 			this.ctx.font = 'bold 10pt Courier New';
 			this.ctx.fillStyle = this.numberColor;
-			this.ctx.fillText(-j++, this.x, this.y + i);
+			this.ctx.fillText(-j++, this.centerX, this.centerY + i);
 			this.ctx.restore();
 			this.ctx.closePath();
 		}
 		j = 1;
-		for (let i = this.scale; i < this.y; i += this.scale) {
+		for (let i = this.scale; i < this.centerY; i += this.scale) {
 			this.ctx.beginPath();
 			this.ctx.save();
 			this.ctx.textAlign = 'right';
 			this.ctx.textBaseline = "top";
 			this.ctx.font = 'bold 10pt Courier New';
 			this.ctx.fillStyle = this.numberColor;
-			this.ctx.fillText(j++, this.x, this.y - i);
+			this.ctx.fillText(j++, this.centerX, this.centerY - i);
 			this.ctx.restore();
 			this.ctx.closePath();
 		}
 	}
 	drawGrid() {
-		for (let i = this.x % this.scale; i < canvas.width; i += this.scale) {
+		for (let i = this.centerX % this.scale; i < canvas.width; i += this.scale) {
 			this.ctx.beginPath();
 			this.ctx.save();
 			this.ctx.moveTo(i, 0);
@@ -149,7 +149,7 @@ class CoordinateSystem {
 			this.ctx.closePath();
 		}
 
-		for (let i = this.y % this.scale; i < canvas.height; i += this.scale) {
+		for (let i = this.centerY % this.scale; i < canvas.height; i += this.scale) {
 			this.ctx.beginPath();
 			this.ctx.save();
 			this.ctx.moveTo(0, i);
@@ -170,8 +170,8 @@ class CoordinateSystem {
 			if (this.lineType) {
 				this.ctx.setLineDash([5, 5]);
 			}
-			this.ctx.moveTo(this.x + this.coordinatesOfLines[i][0].x * this.scale, this.y - this.coordinatesOfLines[i][0].y * this.scale);
-			this.ctx.lineTo(this.x + this.coordinatesOfLines[i][1].x * this.scale, this.y - this.coordinatesOfLines[i][1].y * this.scale);
+			this.ctx.moveTo(this.centerX + this.coordinatesOfLines[i][0].x * this.scale, this.centerY - this.coordinatesOfLines[i][0].y * this.scale);
+			this.ctx.lineTo(this.centerX + this.coordinatesOfLines[i][1].x * this.scale, this.centerY - this.coordinatesOfLines[i][1].y * this.scale);
 			this.ctx.strokeStyle = this.lineСolors[i];
 			this.ctx.lineWidth = 1;
 			this.ctx.stroke();
@@ -236,14 +236,14 @@ class CoordinateSystem {
 				if (i == this.rulerPoints.length - 1) {
 					this.rulerLength += parseFloat(dist);
 				}
-				let textX = this.rulerPoints[i][j + 1].x * this.scale + this.x;
-				let textY = this.rulerPoints[i][j + 1].y * this.scale + this.y;
+				let textX = this.rulerPoints[i][j + 1].x * this.scale + this.centerX;
+				let textY = this.rulerPoints[i][j + 1].y * this.scale + this.centerY;
 				this.ctx.beginPath();
 				this.ctx.save();
 				this.ctx.shadowBlur = 30;
 				this.ctx.shadowColor = this.rulerLineColor;
-				this.ctx.moveTo(this.rulerPoints[i][j].x * this.scale + this.x, this.rulerPoints[i][j].y * this.scale + this.y);
-				this.ctx.lineTo(this.rulerPoints[i][j + 1].x * this.scale + this.x, this.rulerPoints[i][j + 1].y * this.scale + this.y);
+				this.ctx.moveTo(this.rulerPoints[i][j].x * this.scale + this.centerX, this.rulerPoints[i][j].y * this.scale + this.centerY);
+				this.ctx.lineTo(this.rulerPoints[i][j + 1].x * this.scale + this.centerX, this.rulerPoints[i][j + 1].y * this.scale + this.centerY);
 				this.ctx.strokeStyle = this.rulerLineColor;
 				this.ctx.stroke();
 				this.ctx.font = "bold 10pt Courier New";
@@ -263,7 +263,7 @@ class CoordinateSystem {
 				this.ctx.save();
 				this.ctx.shadowBlur = 30;
 				this.ctx.shadowColor = this.rulerPointColor;
-				this.ctx.arc(this.rulerPoints[i][j].x * this.scale + this.x, this.rulerPoints[i][j].y * this.scale + this.y, 3, Math.PI * 2, false);
+				this.ctx.arc(this.rulerPoints[i][j].x * this.scale + this.centerX, this.rulerPoints[i][j].y * this.scale + this.centerY, 3, Math.PI * 2, false);
 				this.ctx.fillStyle = this.rulerPointColor;
 				this.ctx.fill();
 				this.ctx.restore();
@@ -275,21 +275,21 @@ class CoordinateSystem {
 			if (this.rulerPoints[this.rulerPoints.length - 1].length > 0) {
 				let x = this.rulerPoints[this.rulerPoints.length - 1][this.rulerPoints[this.rulerPoints.length - 1].length - 1].x;
 				let y = this.rulerPoints[this.rulerPoints.length - 1][this.rulerPoints[this.rulerPoints.length - 1].length - 1].y;
-				let dist = this.getDistance(x, y, (mouseX - this.x) / this.scale, (mouseY - this.y) / this.scale).toFixed(2);
+				let dist = this.getDistance(x, y, (mouseX - this.centerX) / this.scale, (mouseY - this.centerY) / this.scale).toFixed(2);
 
 				this.ctx.beginPath();
 				this.ctx.save();
 				this.ctx.shadowBlur = 30;
 				this.ctx.shadowColor = this.pointColor;
 				this.ctx.setLineDash([1, 5]);
-				this.ctx.moveTo(x * this.scale + this.x, y * this.scale + this.y);
+				this.ctx.moveTo(x * this.scale + this.centerX, y * this.scale + this.centerY);
 				this.ctx.lineTo(mouseX, mouseY);
 				this.ctx.strokeStyle = this.rulerLineColor;
 				this.ctx.stroke();
 				this.ctx.font = "bold 10pt Courier New";
 
 				let length = 'Длина: ' + dist;
-				let coordinates = '[x: ' + ((mouseX - this.x) / this.scale).toFixed(1) + ', y:' + ((this.y - mouseY) / this.scale).toFixed(1) + ']';
+				let coordinates = '[x: ' + ((mouseX - this.centerX) / this.scale).toFixed(1) + ', y:' + ((this.centerY - mouseY) / this.scale).toFixed(1) + ']';
 				let marginLeft = 20;
 				let marginTop = 20;
 
@@ -352,7 +352,7 @@ class CoordinateSystem {
 		});
 		this.ctx.beginPath();
 		this.ctx.save();
-		this.ctx.arc(x * this.scale + this.x, y * this.scale + this.y, this.pointRadius, Math.PI * 2, false);
+		this.ctx.arc(x * this.scale + this.centerX, y * this.scale + this.centerY, this.pointRadius, Math.PI * 2, false);
 		this.ctx.fillStyle = this.pointColor;
 		this.ctx.fill();
 		this.ctx.restore();
@@ -374,7 +374,7 @@ class CoordinateSystem {
 		for (let i = 0; i < this.coordinatesOfPoints.length; i++) {
 			this.ctx.beginPath();
 			this.ctx.save();
-			this.ctx.arc(this.coordinatesOfPoints[i].x * this.scale + this.x, this.coordinatesOfPoints[i].y * this.scale + this.y, this.pointRadius, Math.PI * 2, false);
+			this.ctx.arc(this.coordinatesOfPoints[i].x * this.scale + this.centerX, this.coordinatesOfPoints[i].y * this.scale + this.centerY, this.pointRadius, Math.PI * 2, false);
 			this.ctx.fillStyle = this.pointColor;
 			this.ctx.fill();
 			this.ctx.restore();
@@ -396,15 +396,13 @@ class CoordinateSystem {
 	}
 	reduceGrid() {
 		if (this.scale > 20) {
-			this.scale -= 10;
+			this.scale -= 5;
 		}
-		return this.scale;
 	}
 	increaseGrid() {
 		if (this.scale < 150) {
-			this.scale += 10;
+			this.scale += 5;
 		}
-		return this.scale;
 	}
 	toggleLineType() {
 		if (this.lineType) {

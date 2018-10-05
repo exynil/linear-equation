@@ -21,14 +21,14 @@ function init() {
 	let cols = 3;
 	let scale = 30;
 	cs = new CoordinateSystem(canvas, ctx, scale);
-	soe = new SystemOfEquations(rows, cols, cs.scale, cs.x);
+	soe = new SystemOfEquations(rows, cols, cs.scale, cs.centerX);
 	cp = new ControlPanel(rows, cols);
 
 	cp.updateForm(rows, cols);
 
 	initTestCoefficients(); // импорт тестовых данных
 
-	cs.update();
+	cs.update(mouse.x, mouse.y);
 }
 
 init();
@@ -52,7 +52,7 @@ function draw() {
 	// Получение координат на прорисовку
 	cs.initialization(soe.calculate(), cp.readColors());
 	// Прорисовка
-	cs.update();
+	cs.update(mouse.x, mouse.y);
 }
 
 function drawWithoutinItialization() {
@@ -65,16 +65,16 @@ function drawWithoutinItialization() {
 // Работает
 function onclick(event) {
 	if (cs.ruler) {
-		cs.addAPointToTheRuler((event.x - cs.x) / cs.scale, (event.y - cs.y) / cs.scale);
+		cs.addAPointToTheRuler((event.x - cs.centerX) / cs.scale, (event.y - cs.centerY) / cs.scale);
 		drawWithoutinItialization();
 	} else {
 		// this.classList.add('btn-success');
 		// this.classList.remove('btn-outline-success');
 		if (event.ctrlKey) {
-			cs.deletePoint((event.x - cs.x) / cs.scale, (event.y - cs.y) / cs.scale);
+			cs.deletePoint((event.x - cs.centerX) / cs.scale, (event.y - cs.centerY) / cs.scale);
 			drawWithoutinItialization();
 		} else {
-			cs.drawPoint((event.x - cs.x) / cs.scale, (event.y - cs.y) / cs.scale);
+			cs.drawPoint((event.x - cs.centerX) / cs.scale, (event.y - cs.centerY) / cs.scale);
 		}
 	}
 }
@@ -147,12 +147,14 @@ function turnGridOnAndOff() {
 }
 
 function reduceGrid() {
-	soe.scale = cs.reduceGrid();
+	cs.reduceGrid();
+	soe.update(cs.scale, cs.centerX);
 	drawWithoutinItialization();
 }
 
 function increaseGrid() {
-	soe.scale = cs.increaseGrid();
+	cs.increaseGrid()
+	soe.update(cs.scale, cs.centerX);
 	drawWithoutinItialization();
 }
 

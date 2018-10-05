@@ -1,9 +1,9 @@
 class SystemOfEquations {
-	constructor(rows, cols, scale, x) {
+	constructor(rows, cols, scale, centerX) {
 		this.rows = rows;
 		this.cols = cols;
 		this.scale = scale;
-		this.x = x / this.scale;
+		this.centerX = centerX / this.scale;
 		this.coefficients = [];
 		this.symbols = [];
 		this.variables = [];
@@ -26,7 +26,7 @@ class SystemOfEquations {
 	calculate() {
 		for (let i = 0; i < this.coefficients.length; i++) {
 			this.variables.push([]);
-			let x = this.x;
+			let x = this.centerX;
 			let y = (this.coefficients[i][2] + -this.coefficients[i][0] * x) / this.coefficients[i][1];
 
 			if (y == Infinity || NaN || y == -Infinity) {
@@ -39,7 +39,7 @@ class SystemOfEquations {
 				y: y
 			});
 
-			x = -this.x;
+			x = -this.centerX;
 			y = (this.coefficients[i][2] + -this.coefficients[i][0] * x) / this.coefficients[i][1];
 
 			if (y == Infinity || NaN || y == -Infinity) {
@@ -61,8 +61,8 @@ class SystemOfEquations {
 			for (let j = beginY; j < endY; j += this.scanScale) {
 				let access = true;
 				for (let k = 0; k < this.coefficients.length; k++) {
-					let x = Math.round((i - cs.x));
-					let y = Math.round(-(j - cs.y));
+					let x = Math.round((i - this.centerX));
+					let y = Math.round(-(j - this.centerY));
 
 					let result = this.coefficients[k][0] * x + this.coefficients[k][1] * y;
 					switch (this.symbols[k]) {
@@ -109,6 +109,10 @@ class SystemOfEquations {
 		// 		if
 		// 	}
 		// }
+	}
+	update(scale, centerX) {
+		this.scale = scale;
+		this.centerX = centerX / this.scale;
 	}
 	reduce() {
 		if (this.rows > 1) {
