@@ -1,0 +1,113 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+@font-face {
+	font-family: 'Material Icons';
+	font-style: normal;
+	font-weight: 400;
+	src: url(../fonts/MaterialIcons-Regular.woff2) format('woff2');
+}
+
+.material-icons {
+	font-family: 'Material Icons';
+	font-weight: normal;
+	font-style: normal;
+	font-size: 2rem;
+	line-height: 1;
+	letter-spacing: normal;
+	text-transform: none;
+	display: inline-block;
+	white-space: nowrap;
+	word-wrap: normal;
+	direction: ltr;
+	-webkit-font-feature-settings: 'liga';
+	-webkit-font-smoothing: antialiased;
+}
+
+html {
+	overflow: hidden;
+}
+
+body {
+	background: #111;
+}
+
+canvas {
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1;
+}
+
+#panel {
+	position: absolute;
+	margin-top: 20px;
+	margin-left: 20px;
+	width: 40rem;
+	z-index: 2;
+}
+
+#panel input, #panel select {
+	color: #2dffb3;
+	background-color: #111;
+	border-color: #2dffb3;
+	border-radius: 0.5rem;
+}
+
+.btn {
+	border-radius: 0.5rem;
+}
+
+.btn-outline-success {
+	color: #2dffb3;
+	border-color: #2dffb3;
+}
+
+.btn-outline-success:hover {
+	color: #212529;
+	background-color: #2dffb3;
+	border-color: #2dffb3;
+}
+
+.btn-outline-success:not(:disabled):not(.disabled):active {
+	color: #212529;
+	background-color: #2dffb3;
+	border-color: #2dffb3;
+}
+
+.btn-outline-danger {
+	color: #ff4343;
+	border-color: #ff4343;
+}
+
+.btn-outline-danger:hover {
+	color: #212529;
+	background-color: #ff4343;
+	border-color: #ff4343;
+}
+
+.btn-outline-danger:not(:disabled):not(.disabled):active {
+	color: #212529;
+	background-color: #ff4343;
+	border-color: #ff4343;
+}
+
+.delete-field-button {
+	color: #FFC107;
+	margin: auto;
+	transition: color 0.3s;
+}
+
+.delete-field-button:hover {
+	cursor: pointer;
+	color: #ff4343;
+}
+
+.tooltip-inner {
+	background-color: #2DFFB3;
+	color: #212529;
+}
