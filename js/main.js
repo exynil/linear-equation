@@ -4,8 +4,8 @@ var ctx = canvas.getContext('2d');
 var colors = ['#00FF7F', '#7B68EE', '#00FFFF'];
 
 var mouse = {
-	x: 400,
-	y: 400
+	x: 0,
+	y: 0
 }
 
 canvas.width = innerWidth;
@@ -100,12 +100,12 @@ function fill() {
 	cs.fillByPoints(soe.scan(0, 0, canvas.width, canvas.height));
 }
 
-// Очистка всех полей [Работает 100%]
+// Очистка всех полей
 function clearFields() {
 	cp.clearFields();
 }
 
-// Удаления прорисованного графика [Работает 100%]
+// Удаления всех графиков
 function deleteAll() {
 	cs.deleteAllLines();
 	cs.deleteAllPoints();

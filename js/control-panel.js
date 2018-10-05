@@ -62,7 +62,6 @@ class ControlPanel {
 		for (let i = 0; i < fields.length; i++) {
 			fields[i].value = randomIntFromRange(-10, 10);
 		}
-		// draw();
 	}
 	// Изменение прозрачности
 	changeOpacity() {
@@ -160,7 +159,7 @@ class ControlPanel {
 
 		for (let i = 0; i < fields.length; i++) {
 			fields[i].oninput = function() {
-				draw(); // [осторожно! внешне зависимая функция]
+				draw(); // [осторожно! зависимая функция]
 			}
 		}
 
@@ -170,7 +169,7 @@ class ControlPanel {
 			deleteFieldButtons[i].onclick = function() {
 				this.parentElement.parentElement.parentElement.parentElement.remove();
 				this.rows--;
-				draw(); // [осторожно! внешне зависимая функция]
+				draw(); // [осторожно! зависимая функция]
 			}
 		}
 
@@ -178,8 +177,7 @@ class ControlPanel {
 
 		for (let i = 0; i < colorFieldButtons.length; i++) {
 			colorFieldButtons[i].onchange = function(event) {
-				console.log(event);
-				draw(); // [осторожно! внешне зависимая функция]
+				draw(); // [осторожно! зависимая функция]
 			}
 		}
 	}

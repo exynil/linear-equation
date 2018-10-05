@@ -25,6 +25,7 @@ class CoordinateSystem {
 		this.lineType = false;
 		this.externalPoints = [];
 		this.fillColorOfTheRangeOfValidValues = 'rgba(255, 69, 69, 0.4)';
+		this.errorColor = '#F50338';
 	}
 	initialization(coordinatesOfLines, colors) {
 		this.coordinatesOfLines = coordinatesOfLines;
@@ -179,6 +180,19 @@ class CoordinateSystem {
 		}
 	}
 	fillByPoints(points) {
+		if (points.length == 0) {
+			this.ctx.beginPath();
+			this.ctx.save();
+			this.ctx.textAlign = 'center';
+			this.ctx.textBaseline = 'middle';
+			this.ctx.shadowBlur = 10;
+			this.ctx.shadowColor = this.errorColor;
+			this.ctx.font = 'bold 30pt Courier New';
+			this.ctx.fillStyle = this.errorColor;
+			this.ctx.fillText('[Система не имеет решения]', this.canvas.width / 2, this.canvas.height / 2);
+			this.ctx.restore();
+			this.ctx.closePath();
+		}
 		for (let i = 0; i < points.length; i++) {
 			this.ctx.beginPath();
 			this.ctx.save();
@@ -188,7 +202,7 @@ class CoordinateSystem {
 			this.ctx.restore();
 			this.ctx.closePath();
 		}
-		
+
 		// for (let i = 0; i < points.length; i++) {
 		// 	for (let j = i + 1; j < points.length; j++) {
 		// 		this.ctx.beginPath();
@@ -301,7 +315,6 @@ class CoordinateSystem {
 				this.ctx.closePath();
 
 				// Прорисовка длины линейки
-				// this.rulerLength += parseFloat(dist);
 				this.theNumberOfPointsInTheLine = this.rulerPoints[this.rulerPoints.length - 1].length;
 				this.ctx.beginPath();
 				this.ctx.save();
