@@ -10,9 +10,9 @@ class SystemOfEquations {
 		this.scanScale = 3;
 		this.exetrnalPoins = [];
 	}
+	// Инициализация данных
 	initialization(coefficients, symbols) {
 		// Конвертация одномерного массива в двумерный и извлечение значений из полей
-		console.log('Кол-во строк: ' + this.rows);
 		for (let i = 0; i < this.rows; i++) {
 			this.coefficients.push([]);
 			for (let j = 0; j < this.cols; j++) {
@@ -22,6 +22,7 @@ class SystemOfEquations {
 		this.symbols = symbols;
 		this.variables = [];
 	}
+	// Вычисление точек
 	calculate() {
 		for (let i = 0; i < this.coefficients.length; i++) {
 			this.variables.push([]);
@@ -53,6 +54,7 @@ class SystemOfEquations {
 		}
 		return this.variables;
 	}
+	// Сканирование и поиск области допустимых значений
 	scan(beginX, beginY, endX, endY) {
 		let points = [];
 		for (let i = beginX; i < endX; i += this.scanScale) {

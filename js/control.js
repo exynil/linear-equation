@@ -45,19 +45,23 @@ function dragElement(elmnt) {
 	elmnt.onmousedown = dragMouseDown;
 
 	function dragMouseDown(e) {
-		e = e || window.event;
-		// e.preventDefault();
-		x = e.pageX;
-		y = e.pageY;
-		left = this.offsetLeft;
-		top = this.offsetTop;
-		left = x - left;
-		top = y - top;
-		document.onmouseup = closeDragElement;
-		document.onmousemove = elementDrag;
+		if (e.target.textContent == 'drag_indicator') {
+			e = e || window.event;
+			// e.preventDefault();
+			x = e.pageX;
+			y = e.pageY;
+			left = this.offsetLeft;
+			top = this.offsetTop;
+			left = x - left;
+			top = y - top;
+			document.onmouseup = closeDragElement;
+			document.onmousemove = elementDrag;
+		}
 	}
 
 	function elementDrag(e) {
+		console.log(e.path[0].locaName);
+		console.log(e);
 		e = e || window.event;
 		// e.preventDefault();
 		x = event.pageX - 20;

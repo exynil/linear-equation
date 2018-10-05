@@ -17,7 +17,7 @@ var cp; // Панель управления
 
 // Начальная инициализация и настройка объектов
 function init() {
-	let rows = 2;
+	let rows = 6;
 	let cols = 3;
 	let scale = 30;
 	cs = new CoordinateSystem(canvas, ctx, scale);
@@ -166,14 +166,14 @@ function initTestCoefficients() {
 	// Экспорт коэфицентов для тестирования
 	let fields = document.getElementsByClassName('field');
 
-	// let fieldValues = [
-	// 	[1, 2, 6],
-	// 	[2, 1, 8],
-	// 	[0, 1, 2],
-	// 	[-1, 1, 1],
-	// 	[1, 0, 0],
-	// 	[0, 1, 0]
-	// ];
+	let fieldValues = [
+		[1, 2, 6],
+		[2, 1, 8],
+		[0, 1, 2],
+		[-1, 1, 1],
+		[1, 0, 0],
+		[0, 1, 0]
+	];
 	// let fieldValues = [
 	// 	[-9, 5, 9],
 	// 	[-1, 7, 4],
@@ -182,10 +182,10 @@ function initTestCoefficients() {
 	// 	[-1, 4, -10],
 	// 	[-7, -2, 8]
 	// ];
-	let fieldValues = [
-		[1, 2, 6],
-		[1, 0, 0]
-	];
+	// let fieldValues = [
+	// 	[1, 2, 6],
+	// 	[1, 0, 0]
+	// ];
 
 	for (let i = 0; i < fieldValues.length; i++) {
 		for (let j = 0; j < soe.cols; j++) {
