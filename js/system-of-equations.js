@@ -12,6 +12,7 @@ class SystemOfEquations {
 	}
 	initialization(coefficients, symbols) {
 		// Конвертация одномерного массива в двумерный и извлечение значений из полей
+		console.log('Кол-во строк: ' + this.rows);
 		for (let i = 0; i < this.rows; i++) {
 			this.coefficients.push([]);
 			for (let j = 0; j < this.cols; j++) {
@@ -24,26 +25,29 @@ class SystemOfEquations {
 	calculate() {
 		for (let i = 0; i < this.coefficients.length; i++) {
 			this.variables.push([]);
-			let y = (this.coefficients[i][2] + -this.coefficients[i][0] * this.x) / this.coefficients[i][1];
-			// if (y == Infinity || y == -Infinity) {
-			// 	// console.log('Ты был тут!');
-			// 	// console.log('x: ' + this.x + ', y: ' + y);
-			// 	y = 100;
-			// 	this.x = 1;
-			// }
+			let x = this.x;
+			let y = (this.coefficients[i][2] + -this.coefficients[i][0] * x) / this.coefficients[i][1];
+
+			if (y == Infinity || NaN || y == -Infinity) {
+				x = 0;
+				y = -100;
+			}
+
 			this.variables[i].push({
-				x: this.x,
+				x: x,
 				y: y
 			});
-			y = (this.coefficients[i][2] + -this.coefficients[i][0] * -this.x) / this.coefficients[i][1];
-			// if (y == Infinity || y == -Infinity) {
-			// 	// console.log('Ты был тут!');
-			// 	// console.log('x: ' + this.x + ', y: ' + y);
-			// 	y = -100;
-			// 	this.x = 1;
-			// }
+
+			x = -this.x;
+			y = (this.coefficients[i][2] + -this.coefficients[i][0] * x) / this.coefficients[i][1];
+
+			if (y == Infinity || NaN || y == -Infinity) {
+				x = 0;
+				y = 100;
+			}
+
 			this.variables[i].push({
-				x: -this.x,
+				x: x,
 				y: y
 			});
 		}
@@ -96,7 +100,7 @@ class SystemOfEquations {
 		return points;
 	}
 	convert(points) {
-		
+
 		// for (let i = 0; i < points[i].length; i++) {
 		// 	let min = points[0].;
 		// 	for (let j = 0; j < points.length; j++) {

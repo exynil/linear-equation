@@ -46,8 +46,7 @@ function dragElement(elmnt) {
 
 	function dragMouseDown(e) {
 		e = e || window.event;
-		e.preventDefault();
-
+		// e.preventDefault();
 		x = e.pageX;
 		y = e.pageY;
 		left = this.offsetLeft;
@@ -60,7 +59,7 @@ function dragElement(elmnt) {
 
 	function elementDrag(e) {
 		e = e || window.event;
-		e.preventDefault();
+		// e.preventDefault();
 		x = event.pageX - 20;
 		y = event.pageY - 20;
 		elmnt.style.left = x - left + 'px';

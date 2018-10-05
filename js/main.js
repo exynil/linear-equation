@@ -17,7 +17,7 @@ var cp; // Панель управления
 
 // Начальная инициализация и настройка объектов
 function init() {
-	let rows = 6;
+	let rows = 2;
 	let cols = 3;
 	let scale = 30;
 	cs = new CoordinateSystem(canvas, ctx, scale);
@@ -28,7 +28,6 @@ function init() {
 
 	initTestCoefficients(); // импорт тестовых данных
 
-	soe.initialization(cp.readFields(), cp.readSymbols());
 	cs.update();
 }
 
@@ -175,13 +174,17 @@ function initTestCoefficients() {
 	// 	[1, 0, 0],
 	// 	[0, 1, 0]
 	// ];
+	// let fieldValues = [
+	// 	[-9, 5, 9],
+	// 	[-1, 7, 4],
+	// 	[-6, -5, 4],
+	// 	[-4, -9, -8],
+	// 	[-1, 4, -10],
+	// 	[-7, -2, 8]
+	// ];
 	let fieldValues = [
-		[-9, 5, 9],
-		[-1, 7, 4],
-		[-6, -5, 4],
-		[-4, -9, -8],
-		[-1, 4, -10],
-		[-7, -2, 8]
+		[1, 2, 6],
+		[1, 0, 0]
 	];
 
 	for (let i = 0; i < fieldValues.length; i++) {
