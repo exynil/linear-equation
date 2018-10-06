@@ -24,7 +24,7 @@ class CoordinateSystem {
 		this.theNumberOfPointsInTheLine;
 		this.lineType = false;
 		this.externalPoints = [];
-		this.fillColorOfTheRangeOfValidValues = 'rgba(255, 69, 69, 0.7)';
+		this.fillColorOfTheRangeOfValidValues = 'rgba(255, 69, 69, 0.2)';
 		this.errorColor = '#F50338';
 	}
 	initialization(coordinatesOfLines, colors) {
@@ -184,12 +184,11 @@ class CoordinateSystem {
 			this.ctx.beginPath();
 			this.ctx.save();
 			this.ctx.textAlign = 'center';
-			this.ctx.textBaseline = 'middle';
 			this.ctx.shadowBlur = 10;
 			this.ctx.shadowColor = this.errorColor;
 			this.ctx.font = 'bold 30pt Courier New';
 			this.ctx.fillStyle = this.errorColor;
-			this.ctx.fillText('[Система не имеет решения]', this.canvas.width / 2, this.canvas.height / 2);
+			this.ctx.fillText('[Система не имеет решения]', this.canvas.width / 2, this.canvas.height - 200);
 			this.ctx.restore();
 			this.ctx.closePath();
 		}
@@ -329,6 +328,7 @@ class CoordinateSystem {
 				this.ctx.restore();
 				this.ctx.closePath();
 			}
+			// getAngle()
 		}
 	}
 	deleteLastPointInRuler() {
@@ -410,6 +410,9 @@ class CoordinateSystem {
 		} else {
 			this.lineType = true;
 		}
+	}
+	getAngle() {
+
 	}
 	getDistance(x1, y1, x2, y2) {
 		let xDistance = x2 - x1;

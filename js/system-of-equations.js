@@ -8,7 +8,7 @@ class SystemOfEquations {
 		this.coefficients = [];
 		this.symbols = [];
 		this.variables = [];
-		this.scanScale = 3;
+		this.scanScale = 1;
 		this.exetrnalPoins = [];
 	}
 	// Инициализация данных
@@ -111,9 +111,10 @@ class SystemOfEquations {
 		// 	}
 		// }
 	}
-	update(scale, centerX) {
+	update(scale, centerX, centerY) {
 		this.scale = scale;
 		this.centerX = centerX / this.scale;
+		this.centerY = centerY / this.scale;
 	}
 	reduce() {
 		if (this.rows > 1) {

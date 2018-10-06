@@ -163,6 +163,12 @@ function toggleLineType() {
 	drawWithoutinItialization();
 }
 
+function minimizeControlPanel() {
+	// let panel = document.getElementById('panel');
+	// panel.style.marginTop = -200; 
+	console.log(this.parentElement.parentElement.parentElement.parentElement.parentElement.style);
+}
+
 // Импорт коэффицентов для тестирования
 function initTestCoefficients() {
 	// Экспорт коэфицентов для тестирования

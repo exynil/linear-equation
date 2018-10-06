@@ -97,3 +97,4 @@ document.getElementById('increase-grid').onclick = increaseGrid;
 document.getElementById('ruler').onclick = toggleRuler;
 document.getElementById('delete-all-rulers').onclick = deleteAllRulers;
 document.getElementById('line-type').onclick = toggleLineType;
+document.getElementById('minimize').onclick = minimizeControlPanel;
