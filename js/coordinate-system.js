@@ -24,7 +24,7 @@ class CoordinateSystem {
 		this.theNumberOfPointsInTheLine;
 		this.lineType = false;
 		this.externalPoints = [];
-		this.fillColorOfTheRangeOfValidValues = 'rgba(255, 69, 69, 0.2)';
+		this.fillColorOfTheRangeOfValidValues = 'rgba(255, 69, 69, 0.1)';
 		this.errorColor = '#F50338';
 	}
 	initialization(coordinatesOfLines, colors) {

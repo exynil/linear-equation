@@ -64,31 +64,34 @@ function drawWithoutinItialization() {
 
 // Работает
 function onclick(event) {
-	if (cs.ruler) {
-		cs.addAPointToTheRuler((event.x - cs.centerX) / cs.scale, (event.y - cs.centerY) / cs.scale);
-		drawWithoutinItialization();
-	} else {
-		// this.classList.add('btn-success');
-		// this.classList.remove('btn-outline-success');
-		if (event.ctrlKey) {
-			cs.deletePoint((event.x - cs.centerX) / cs.scale, (event.y - cs.centerY) / cs.scale);
+	if (event.target.localName == 'div' || event.target.localName == 'canvas') {
+		if (cs.ruler) {
+			cs.addAPointToTheRuler((event.x - cs.centerX) / cs.scale, (event.y - cs.centerY) / cs.scale);
 			drawWithoutinItialization();
 		} else {
-			cs.drawPoint((event.x - cs.centerX) / cs.scale, (event.y - cs.centerY) / cs.scale);
+			// this.classList.add('btn-success');
+			// this.classList.remove('btn-outline-success');
+			if (event.ctrlKey) {
+				cs.deletePoint((event.x - cs.centerX) / cs.scale, (event.y - cs.centerY) / cs.scale);
+				drawWithoutinItialization();
+			} else {
+				cs.drawPoint((event.x - cs.centerX) / cs.scale, (event.y - cs.centerY) / cs.scale);
+			}
 		}
 	}
+
 }
 
 function toggleRuler() {
 	cs.toggleRuler();
 	if (cs.ruler) {
-		canvas.onmousemove = function(event) {
+		window.onmousemove = function(event) {
 			mouse.x = event.x;
 			mouse.y = event.y;
 			drawWithoutinItialization();
 		}
 	} else {
-		canvas.onmousemove = null;
+		window.onmousemove = null;
 		drawWithoutinItialization();
 	}
 }
@@ -166,7 +169,7 @@ function toggleLineType() {
 function minimizeControlPanel() {
 	// let panel = document.getElementById('panel');
 	// panel.style.marginTop = -200; 
-	console.log(this.parentElement.parentElement.parentElement.parentElement.parentElement.style);
+	console.log(getComputedStyle(this));
 }
 
 // Импорт коэффицентов для тестирования

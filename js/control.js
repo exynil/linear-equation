@@ -35,7 +35,7 @@ addEventListener('keydown', function(event) {
 	}
 })
 
-canvas.onclick = onclick;
+document.onclick = onclick;
 
 function dragElement(elmnt) {
 	let x, y, left, top;
