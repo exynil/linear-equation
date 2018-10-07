@@ -45,10 +45,11 @@ canvas {
 
 #panel {
 	position: absolute;
-	margin-top: 20px;
-	margin-left: 20px;
-	width: 40rem;
+	top: 20px;
+	left: 20px;
+	width: 45rem;
 	z-index: 2;
+	transition: top 0.4s;
 }
 
 #panel input, #panel select {

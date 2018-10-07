@@ -7,29 +7,30 @@ class CoordinateSystem {
 		this.gridStatus = true;
 		this.scale = scale;
 		this.axisLineWidth = 1;
-		this.axisLineColor = '#FF7400';
+		this.axisLineColor = '#FF9300';
 		this.gridLineWidth = 0.5;
 		this.gridLineColor = 'gray';
 		this.numberColor = 'gray';
-		this.pointColor = '#FCD130';
-		this.pointRadius = 5;
+		this.pointColor = '#B114FF';
+		this.pointRadius = 4;
 		this.coordinatesOfPoints = [];
 		this.coordinatesOfLines = [];
 		this.lineСolors = [];
 		this.rulerPoints = [];
 		this.rulerLineColor = '#14F8FF';
-		this.rulerPointColor = '#FF7400';
+		this.rulerPointColor = '#FF9300';
+		this.rulerAngleColor = '#FCD130';
+		this.rulerPointCoordinateColor = '#FF9300';
 		this.ruler = false;
 		this.rulerLength;
 		this.theNumberOfPointsInTheLine;
 		this.lineType = false;
-		this.externalPoints = [];
-		this.fillColorOfTheRangeOfValidValues = 'rgba(255, 69, 69, 0.1)';
+		this.fillColorOfTheRangeOfValidValues = 'rgba(255, 69, 69, 0.4)';
 		this.errorColor = '#F50338';
 	}
 	initialization(coordinatesOfLines, colors) {
 		this.coordinatesOfLines = coordinatesOfLines;
-		this.lineСolors = colors
+		this.lineСolors = colors;
 	}
 	update(mouseX, mouseY) {
 		this.centerX = this.canvas.width / 2;
@@ -43,6 +44,7 @@ class CoordinateSystem {
 		if (this.gridStatus) {
 			this.drawGrid();
 		}
+
 		this.drawAxis();
 		this.drawNumbering();
 		this.drawAllPoints();
@@ -62,13 +64,52 @@ class CoordinateSystem {
 		this.ctx.restore();
 		this.ctx.closePath();
 
+		this.ctx.beginPath();
+		this.ctx.save();
+		this.ctx.lineWidth = this.axisLineWidth;
+		this.ctx.strokeStyle = this.axisLineColor;
+		for (let i = this.centerX % this.scale; i < this.canvas.width; i += this.scale) {
+			this.ctx.moveTo(i, this.centerY - 3);
+			this.ctx.lineTo(i, this.centerY + 3);
+		}
+		for (let i = this.centerY % this.scale; i < this.canvas.height; i += this.scale) {
+			this.ctx.moveTo(this.centerX - 3, i);
+			this.ctx.lineTo(this.centerX + 3, i);
+		}
+		this.ctx.stroke();
+		this.ctx.restore();
+		this.ctx.closePath();
+
+	}
+	drawNumbering() {
+		this.ctx.beginPath();
+		this.ctx.save();
+		this.ctx.textAlign = 'right';
+		this.ctx.textBaseline = "top";
+		this.ctx.font = 'bold 10pt Courier New';
+		this.ctx.fillStyle = this.numberColor;
+		// Прорисовка X положительных и X отрицательных
+		for (let i = this.scale; i < this.centerX; i += this.scale) {
+			this.ctx.fillText(i / this.scale, this.centerX + i, this.centerY);
+			this.ctx.fillText(-i / this.scale, this.centerX - i, this.centerY);
+		}
+
+		// Прорисовка Y положительных и Y отрицательных
+		for (let i = this.scale; i < this.centerY; i += this.scale) {
+			this.ctx.fillText(i / this.scale, this.centerX, this.centerY - i);
+			this.ctx.fillText(-i / this.scale, this.centerX, this.centerY + i);
+		}
+		this.ctx.restore();
+		this.ctx.closePath();
+	}
+	drawGrid() {
 		for (let i = this.centerX % this.scale; i < this.canvas.width; i += this.scale) {
 			this.ctx.beginPath();
 			this.ctx.save();
-			this.ctx.moveTo(i, this.centerY - 3);
-			this.ctx.lineTo(i, this.centerY + 3);
-			this.ctx.lineWidth = this.axisLineWidth;
-			this.ctx.strokeStyle = this.axisLineColor;
+			this.ctx.moveTo(i, 0);
+			this.ctx.lineTo(i, this.canvas.height);
+			this.ctx.strokeStyle = this.gridLineColor;
+			this.ctx.lineWidth = this.gridLineWidth;
 			this.ctx.stroke();
 			this.ctx.restore();
 			this.ctx.closePath();
@@ -77,83 +118,8 @@ class CoordinateSystem {
 		for (let i = this.centerY % this.scale; i < this.canvas.height; i += this.scale) {
 			this.ctx.beginPath();
 			this.ctx.save();
-			this.ctx.moveTo(this.centerX - 3, i);
-			this.ctx.lineTo(this.centerX + 3, i);
-			this.ctx.lineWidth = this.axisLineWidth;
-			this.ctx.strokeStyle = this.axisLineColor;
-			this.ctx.stroke();
-			this.ctx.restore();
-			this.ctx.closePath();
-		}
-	}
-	drawNumbering() {
-		let j = 0;
-		for (let i = 0; i < this.centerX; i += this.scale) {
-			this.ctx.beginPath();
-			this.ctx.save();
-			this.ctx.textAlign = 'right';
-			this.ctx.textBaseline = "top";
-			this.ctx.font = 'bold 10pt Courier New';
-			this.ctx.fillStyle = this.numberColor;
-			this.ctx.fillText(j++, this.centerX + i, this.centerY);
-			this.ctx.restore();
-			this.ctx.closePath();
-		}
-		j = 1;
-		for (let i = this.scale; i < this.centerX; i += this.scale) {
-			this.ctx.beginPath();
-			this.ctx.save();
-			this.ctx.textAlign = 'right';
-			this.ctx.textBaseline = "top";
-			this.ctx.font = 'bold 10pt Courier New';
-			this.ctx.fillStyle = this.numberColor;
-			this.ctx.fillText(-j++, this.centerX - i, this.centerY);
-			this.ctx.restore();
-			this.ctx.closePath();
-		}
-		j = 1;
-		for (let i = this.scale; i < this.centerY; i += this.scale) {
-			this.ctx.beginPath();
-			this.ctx.save();
-			this.ctx.textAlign = 'right';
-			this.ctx.textBaseline = "top";
-			this.ctx.font = 'bold 10pt Courier New';
-			this.ctx.fillStyle = this.numberColor;
-			this.ctx.fillText(-j++, this.centerX, this.centerY + i);
-			this.ctx.restore();
-			this.ctx.closePath();
-		}
-		j = 1;
-		for (let i = this.scale; i < this.centerY; i += this.scale) {
-			this.ctx.beginPath();
-			this.ctx.save();
-			this.ctx.textAlign = 'right';
-			this.ctx.textBaseline = "top";
-			this.ctx.font = 'bold 10pt Courier New';
-			this.ctx.fillStyle = this.numberColor;
-			this.ctx.fillText(j++, this.centerX, this.centerY - i);
-			this.ctx.restore();
-			this.ctx.closePath();
-		}
-	}
-	drawGrid() {
-		for (let i = this.centerX % this.scale; i < canvas.width; i += this.scale) {
-			this.ctx.beginPath();
-			this.ctx.save();
-			this.ctx.moveTo(i, 0);
-			this.ctx.lineTo(i, canvas.height);
-			this.ctx.strokeStyle = this.gridLineColor;
-			this.ctx.lineWidth = this.gridLineWidth;
-			this.ctx.stroke();
-			this.ctx.restore();
-			this.ctx.closePath();
-		}
-
-		for (let i = this.centerY % this.scale; i < canvas.height; i += this.scale) {
-			this.ctx.beginPath();
-			this.ctx.save();
 			this.ctx.moveTo(0, i);
-			this.ctx.lineTo(canvas.width, i);
+			this.ctx.lineTo(this.canvas.width, i);
 			this.ctx.strokeStyle = this.gridLineColor;
 			this.ctx.lineWidth = this.gridLineWidth;
 			this.ctx.stroke();
@@ -165,15 +131,13 @@ class CoordinateSystem {
 		for (let i = 0; i < this.coordinatesOfLines.length; i++) {
 			this.ctx.beginPath();
 			this.ctx.save();
-			this.ctx.shadowBlur = 15;
-			this.ctx.shadowColor = this.lineСolors[i];
+			this.ctx.strokeStyle = this.lineСolors[i];
+			this.ctx.lineWidth = 1;
 			if (this.lineType) {
 				this.ctx.setLineDash([5, 5]);
 			}
 			this.ctx.moveTo(this.centerX + this.coordinatesOfLines[i][0].x * this.scale, this.centerY - this.coordinatesOfLines[i][0].y * this.scale);
 			this.ctx.lineTo(this.centerX + this.coordinatesOfLines[i][1].x * this.scale, this.centerY - this.coordinatesOfLines[i][1].y * this.scale);
-			this.ctx.strokeStyle = this.lineСolors[i];
-			this.ctx.lineWidth = 1;
 			this.ctx.stroke();
 			this.ctx.restore();
 			this.ctx.closePath();
@@ -188,33 +152,18 @@ class CoordinateSystem {
 			this.ctx.shadowColor = this.errorColor;
 			this.ctx.font = 'bold 30pt Courier New';
 			this.ctx.fillStyle = this.errorColor;
-			this.ctx.fillText('[Система не имеет решения]', this.canvas.width / 2, this.canvas.height - 200);
+			this.ctx.fillText('[Система не имеет решения]', this.canvas.width / 2, this.canvas.height - 30);
 			this.ctx.restore();
 			this.ctx.closePath();
 		}
 		for (let i = 0; i < points.length; i++) {
 			this.ctx.beginPath();
 			this.ctx.save();
-			this.ctx.arc(points[i].x, points[i].y, 1, Math.PI * 2, false);
 			this.ctx.fillStyle = this.fillColorOfTheRangeOfValidValues;
-			this.ctx.fill();
+			this.ctx.fillRect(points[i].x, points[i].y, 1, 1);
 			this.ctx.restore();
 			this.ctx.closePath();
 		}
-
-		// for (let i = 0; i < points.length; i++) {
-		// 	for (let j = i + 1; j < points.length; j++) {
-		// 		this.ctx.beginPath();
-		// 		this.ctx.save();
-		// 		this.ctx.moveTo(points[i].x, points[i].y);
-		// 		this.ctx.lineTo(points[j].x, points[j].y);
-		// 		this.ctx.strokeStyle = 'rgba(255, 104, 104, 1)';
-		// 		this.ctx.lineWidth = 0.3;
-		// 		this.ctx.stroke();
-		// 		this.ctx.restore();
-		// 		this.ctx.closePath();
-		// 	}
-		// }
 	}
 
 	addAPointToTheRuler(x, y) {
@@ -236,56 +185,58 @@ class CoordinateSystem {
 					this.rulerLength += parseFloat(dist);
 				}
 				let textX = this.rulerPoints[i][j + 1].x * this.scale + this.centerX;
-				let textY = this.rulerPoints[i][j + 1].y * this.scale + this.centerY;
+				let textY = this.centerY - this.rulerPoints[i][j + 1].y * this.scale;
 				this.ctx.beginPath();
 				this.ctx.save();
-				this.ctx.shadowBlur = 30;
-				this.ctx.shadowColor = this.rulerLineColor;
-				this.ctx.moveTo(this.rulerPoints[i][j].x * this.scale + this.centerX, this.rulerPoints[i][j].y * this.scale + this.centerY);
-				this.ctx.lineTo(this.rulerPoints[i][j + 1].x * this.scale + this.centerX, this.rulerPoints[i][j + 1].y * this.scale + this.centerY);
+				this.ctx.moveTo(this.rulerPoints[i][j].x * this.scale + this.centerX, this.centerY - this.rulerPoints[i][j].y * this.scale);
+				this.ctx.lineTo(this.rulerPoints[i][j + 1].x * this.scale + this.centerX, this.centerY - this.rulerPoints[i][j + 1].y * this.scale);
 				this.ctx.strokeStyle = this.rulerLineColor;
 				this.ctx.stroke();
-				this.ctx.font = "bold 10pt Courier New";
-				this.ctx.textAlign = 'right';
+				this.ctx.font = 'bold 10pt Courier New';
+				this.ctx.textAlign = 'center';
 				this.ctx.textBaseline = 'top';
-				this.ctx.shadowColor = this.pointColor;
-				this.ctx.fillStyle = this.pointColor;
-				this.ctx.fillText(dist, textX, textY);
+				this.ctx.fillStyle = this.rulerPointCoordinateColor;
+				this.ctx.fillText(dist, textX, textY + 5);
 				this.ctx.restore();
 				this.ctx.closePath();
 			}
 		}
-		// Прорисовка точке в линейке
+		// Прорисовка точек в линейке
 		for (let i = 0; i < this.rulerPoints.length; i++) {
 			for (let j = 0; j < this.rulerPoints[i].length; j++) {
 				this.ctx.beginPath();
 				this.ctx.save();
-				this.ctx.shadowBlur = 30;
-				this.ctx.shadowColor = this.rulerPointColor;
-				this.ctx.arc(this.rulerPoints[i][j].x * this.scale + this.centerX, this.rulerPoints[i][j].y * this.scale + this.centerY, 3, Math.PI * 2, false);
 				this.ctx.fillStyle = this.rulerPointColor;
+				this.ctx.arc(this.rulerPoints[i][j].x * this.scale + this.centerX, this.centerY - this.rulerPoints[i][j].y * this.scale, 3, Math.PI * 2, false);
 				this.ctx.fill();
+				this.ctx.restore();
+				this.ctx.closePath();
+
+				this.ctx.beginPath();
+				this.ctx.save();
+				this.ctx.strokeStyle = this.rulerLineColor;
+				this.ctx.arc(this.rulerPoints[i][j].x * this.scale + this.centerX, this.centerY - this.rulerPoints[i][j].y * this.scale, 6, Math.PI * 2, false);
+				this.ctx.stroke();
 				this.ctx.restore();
 				this.ctx.closePath();
 			}
 		}
-		// Прорисовка информации и линии от последней точки в линейке до курсора мыши
+		// Прорисовка линии от последней точки в линейке до курсора мыши
+		// Прорисовка общей длины, кол-ва точек, кол-во сегментов и угол
 		if (this.ruler && this.rulerPoints.length > 0) {
 			if (this.rulerPoints[this.rulerPoints.length - 1].length > 0) {
 				let x = this.rulerPoints[this.rulerPoints.length - 1][this.rulerPoints[this.rulerPoints.length - 1].length - 1].x;
 				let y = this.rulerPoints[this.rulerPoints.length - 1][this.rulerPoints[this.rulerPoints.length - 1].length - 1].y;
-				let dist = this.getDistance(x, y, (mouseX - this.centerX) / this.scale, (mouseY - this.centerY) / this.scale).toFixed(2);
+				let dist = this.getDistance(x, y, (mouseX - this.centerX) / this.scale, (this.centerY - mouseY) / this.scale).toFixed(2);
 
 				this.ctx.beginPath();
 				this.ctx.save();
-				this.ctx.shadowBlur = 30;
-				this.ctx.shadowColor = this.pointColor;
-				this.ctx.setLineDash([1, 5]);
-				this.ctx.moveTo(x * this.scale + this.centerX, y * this.scale + this.centerY);
+				this.ctx.setLineDash([3, 5]);
+				this.ctx.moveTo(x * this.scale + this.centerX, this.centerY - y * this.scale);
 				this.ctx.lineTo(mouseX, mouseY);
 				this.ctx.strokeStyle = this.rulerLineColor;
 				this.ctx.stroke();
-				this.ctx.font = "bold 10pt Courier New";
+				this.ctx.font = 'bold 10pt Courier New';
 
 				let length = 'Длина: ' + dist;
 				let coordinates = '[x: ' + ((mouseX - this.centerX) / this.scale).toFixed(1) + ', y:' + ((this.centerY - mouseY) / this.scale).toFixed(1) + ']';
@@ -307,7 +258,7 @@ class CoordinateSystem {
 					this.ctx.textBaseline = 'top';
 				}
 
-				this.ctx.fillStyle = this.pointColor;
+				this.ctx.fillStyle = this.rulerPointColor;
 				this.ctx.fillText(length, mouseX + marginLeft, mouseY + marginTop);
 				this.ctx.fillText(coordinates, mouseX + marginLeft, mouseY + marginTop + 20);
 				this.ctx.restore();
@@ -317,18 +268,59 @@ class CoordinateSystem {
 				this.theNumberOfPointsInTheLine = this.rulerPoints[this.rulerPoints.length - 1].length;
 				this.ctx.beginPath();
 				this.ctx.save();
-				this.ctx.shadowBlur = 30;
-				this.ctx.shadowColor = this.pointColor;
-				this.ctx.font = "bold 13pt Courier New";
+				this.ctx.shadowBlur = 10;
+				this.ctx.shadowColor = this.rulerPointColor;
+				this.ctx.font = 'bold 13pt Courier New';
 				this.ctx.textAlign = 'left';
-				this.ctx.fillStyle = this.pointColor;
+				this.ctx.fillStyle = this.rulerPointColor;
 				this.ctx.fillText('Общая длина: ' + this.rulerLength.toFixed(2) + ' ед.', this.canvas.width - 300, 50);
 				this.ctx.fillText('Кол-во точек: ' + this.theNumberOfPointsInTheLine, this.canvas.width - 300, 100);
 				this.ctx.fillText('Кол-во сегментов: ' + (this.theNumberOfPointsInTheLine - 1), this.canvas.width - 300, 150);
 				this.ctx.restore();
 				this.ctx.closePath();
 			}
-			// getAngle()
+			// Вычисление угла
+			if (this.rulerPoints[this.rulerPoints.length - 1].length > 1) {
+				let a = this.rulerPoints[this.rulerPoints.length - 1][this.rulerPoints[this.rulerPoints.length - 1].length - 1];
+				let b = this.rulerPoints[this.rulerPoints.length - 1][this.rulerPoints[this.rulerPoints.length - 1].length - 2];
+				let c = a;
+				let d = {
+					x: (mouseX - this.centerX) / this.scale,
+					y: (this.centerY - mouseY) / this.scale
+				};
+
+				let ab = {
+					x: a.x - b.x,
+					y: a.y - b.y
+				};
+
+				let cd = {
+					x: c.x - d.x,
+					y: c.y - d.y
+				};
+
+				let abcd = ab.x * cd.x + ab.y * cd.y;
+
+				let abv = Math.pow(ab.x, 2) + Math.pow(ab.y, 2);
+
+				let cdv = Math.pow(cd.x, 2) + Math.pow(cd.y, 2);
+
+				let alpha = abcd / Math.sqrt(abv * cdv);
+
+				// Прорисовка угла и окружности
+				this.ctx.beginPath();
+				this.ctx.save();
+				this.ctx.strokeStyle = this.rulerLineColor;
+				this.ctx.arc(this.centerX + a.x * this.scale, this.centerY - a.y * this.scale, 50, Math.PI * 2 - alpha, false);
+				this.ctx.font = 'bold 10pt Courier New';
+				this.ctx.textAlign = 'center';
+				this.ctx.textBaseline = 'bottom';
+				this.ctx.fillStyle = this.rulerAngleColor;
+				this.ctx.fillText((Math.acos(alpha) * 180 / Math.PI).toFixed(2) + '°', this.centerX + a.x * this.scale, this.centerY - a.y * this.scale - 5);
+				this.ctx.stroke();
+				this.ctx.restore();
+				this.ctx.closePath();
+			}
 		}
 	}
 	deleteLastPointInRuler() {
@@ -352,7 +344,9 @@ class CoordinateSystem {
 		});
 		this.ctx.beginPath();
 		this.ctx.save();
-		this.ctx.arc(x * this.scale + this.centerX, y * this.scale + this.centerY, this.pointRadius, Math.PI * 2, false);
+		this.ctx.shadowBlur = 30;
+		this.ctx.shadowColor = this.pointColor;
+		this.ctx.arc(x * this.scale + this.centerX, this.centerY - y * this.scale, this.pointRadius, Math.PI * 2, false);
 		this.ctx.fillStyle = this.pointColor;
 		this.ctx.fill();
 		this.ctx.restore();
@@ -374,7 +368,9 @@ class CoordinateSystem {
 		for (let i = 0; i < this.coordinatesOfPoints.length; i++) {
 			this.ctx.beginPath();
 			this.ctx.save();
-			this.ctx.arc(this.coordinatesOfPoints[i].x * this.scale + this.centerX, this.coordinatesOfPoints[i].y * this.scale + this.centerY, this.pointRadius, Math.PI * 2, false);
+			this.ctx.shadowBlur = 30;
+			this.ctx.shadowColor = this.pointColor;
+			this.ctx.arc(this.coordinatesOfPoints[i].x * this.scale + this.centerX, this.centerY - this.coordinatesOfPoints[i].y * this.scale, this.pointRadius, Math.PI * 2, false);
 			this.ctx.fillStyle = this.pointColor;
 			this.ctx.fill();
 			this.ctx.restore();

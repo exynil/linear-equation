@@ -13,7 +13,7 @@ canvas.height = innerHeight;
 
 var cs; // Система координат
 var soe; // Система уравнений
-var cp; // Панель управления
+var form; // Панель управления
 
 // Начальная инициализация и настройка объектов
 function init() {
@@ -22,24 +22,25 @@ function init() {
 	let scale = 30;
 	cs = new CoordinateSystem(canvas, ctx, scale);
 	soe = new SystemOfEquations(rows, cols, cs.scale, cs.centerX, cs.centerY);
-	cp = new ControlPanel(rows, cols);
+	form = new Form(rows, cols);
 
-	cp.updateForm(rows, cols);
+	form.updateForm(rows, cols);
 
 	initTestCoefficients(); // импорт тестовых данных
 
 	cs.update(mouse.x, mouse.y);
+	toggleRuler();
 }
 
 init();
 
 function reduce() {
-	cp.reduce();
+	form.reduce();
 	soe.reduce();
 }
 
 function increase() {
-	cp.increase();
+	form.increase();
 	soe.increase();
 }
 
@@ -48,9 +49,9 @@ function draw() {
 	// Очистка холста
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	// Инициализация или обновление данных
-	soe.initialization(cp.readFields(), cp.readSymbols());
+	soe.initialization(form.readFields(), form.readSymbols());
 	// Получение координат на прорисовку
-	cs.initialization(soe.calculate(), cp.readColors());
+	cs.initialization(soe.calculate(), form.readColors());
 	// Прорисовка
 	cs.update(mouse.x, mouse.y);
 }
@@ -66,16 +67,14 @@ function drawWithoutinItialization() {
 function onclick(event) {
 	if (event.target.localName == 'div' || event.target.localName == 'canvas') {
 		if (cs.ruler) {
-			cs.addAPointToTheRuler((event.x - cs.centerX) / cs.scale, (event.y - cs.centerY) / cs.scale);
+			cs.addAPointToTheRuler((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
 			drawWithoutinItialization();
 		} else {
-			// this.classList.add('btn-success');
-			// this.classList.remove('btn-outline-success');
 			if (event.ctrlKey) {
-				cs.deletePoint((event.x - cs.centerX) / cs.scale, (event.y - cs.centerY) / cs.scale);
+				cs.deletePoint((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
 				drawWithoutinItialization();
 			} else {
-				cs.drawPoint((event.x - cs.centerX) / cs.scale, (event.y - cs.centerY) / cs.scale);
+				cs.drawPoint((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
 			}
 		}
 	}
@@ -104,7 +103,7 @@ function fill() {
 
 // Очистка всех полей
 function clearFields() {
-	cp.clearFields();
+	form.clearFields();
 }
 
 // Удаления всех графиков
@@ -134,12 +133,17 @@ function deleteAllRulers() {
 }
 // Включение и отключение прозрачности
 function changeOpacity() {
-	cp.changeOpacity();
+	let panel = document.getElementById('panel');
+	if (getComputedStyle(document.getElementById('panel')).opacity == '1') {
+		panel.style.opacity = '0.3';
+	} else {
+		panel.style.opacity = '1';
+	}
 }
 
 // Заполнение полей случайными коэффицентами
 function random() {
-	cp.random();
+	form.random();
 	draw();
 }
 
@@ -167,9 +171,15 @@ function toggleLineType() {
 }
 
 function minimizeControlPanel() {
-	// let panel = document.getElementById('panel');
-	// panel.style.marginTop = -200; 
-	console.log(getComputedStyle(this));
+	let panel = document.getElementById('panel');
+	if (parseInt(getComputedStyle(document.getElementById('panel')).top) > -310) {
+		panel.style.top = -(parseInt(getComputedStyle(panel).height) - 200) + 'px';
+		this.textContent = 'expand_more';
+	} else {
+		panel.style.top = 20 + 'px';
+		this.textContent = 'expand_less';
+
+	}
 }
 
 // Импорт коэффицентов для тестирования
@@ -190,6 +200,15 @@ function initTestCoefficients() {
 		[1, 0, 0],
 		[0, 1, 0]
 	];
+
+	// let fieldValues = [
+	// 	[-3, 2, -7],
+	// 	[-7, -3, -7],
+	// 	[-2, -5, -7],
+	// 	[-9, -9, -3],
+	// 	[6, 9, -1],
+	// 	[-6, -1, 3]
+	// ];
 
 	for (let i = 0; i < fieldValues.length; i++) {
 		for (let j = 0; j < soe.cols; j++) {

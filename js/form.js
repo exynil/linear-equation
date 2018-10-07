@@ -1,4 +1,4 @@
-class ControlPanel {
+class Form {
 	constructor(rows, cols) {
 		this.rows = rows;
 		this.cols = cols;
@@ -61,17 +61,6 @@ class ControlPanel {
 
 		for (let i = 0; i < fields.length; i++) {
 			fields[i].value = randomIntFromRange(-10, 10);
-		}
-	}
-	// Изменение прозрачности
-	changeOpacity() {
-		let panel = document.getElementById('panel');
-		if (this.opacity) {
-			panel.style.opacity = '0.3';
-			this.opacity = false;
-		} else {
-			panel.style.opacity = '1';
-			this.opacity = true;
 		}
 	}
 	// Сохранение коэффицентов

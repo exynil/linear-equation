@@ -13,6 +13,9 @@ class SystemOfEquations {
 	}
 	// Инициализация данных
 	initialization(coefficients, symbols) {
+		this.coefficients = [];
+		this.variables = [];
+		this.symbols = symbols;
 		// Конвертация одномерного массива в двумерный и извлечение значений из полей
 		for (let i = 0; i < this.rows; i++) {
 			this.coefficients.push([]);
@@ -20,8 +23,6 @@ class SystemOfEquations {
 				this.coefficients[i][j] = parseInt(coefficients[i * this.cols + j]);
 			}
 		}
-		this.symbols = symbols;
-		this.variables = [];
 	}
 	// Вычисление точек
 	calculate() {

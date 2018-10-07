@@ -44,6 +44,7 @@ function dragElement(elmnt) {
 
 	function dragMouseDown(e) {
 		if (e.target.textContent == 'drag_indicator') {
+			document.getElementById('panel').style.transition = 'top 0s';
 			e = e || window.event;
 			x = e.pageX;
 			y = e.pageY;
@@ -58,13 +59,20 @@ function dragElement(elmnt) {
 
 	function elementDrag(e) {
 		e = e || window.event;
-		x = event.pageX - 20;
-		y = event.pageY - 20;
+
+		x = event.pageX;
+		y = event.pageY;
 		elmnt.style.left = x - left + 'px';
 		elmnt.style.top = y - top + 'px';
+		if (parseInt(getComputedStyle(document.getElementById('panel')).top) > -310) {
+			document.getElementById('minimize').textContent = 'expand_less';
+		} else {
+			document.getElementById('minimize').textContent = 'expand_more';
+		}
 	}
 
 	function closeDragElement() {
+		document.getElementById('panel').style.transition = 'top 0.4s';
 		document.onmouseup = null;
 		document.onmousemove = null;
 	}
@@ -85,7 +93,7 @@ document.getElementById('reduce').onclick = reduce;
 document.getElementById('increase').onclick = increase;
 document.getElementById('draw').onclick = draw;
 document.getElementById('fill').onclick = fill;
-document.getElementById('deleteLinesAndPoints').onclick = deleteAll;
+document.getElementById('deleteAll').onclick = deleteAll;
 document.getElementById('clear').onclick = clearFields;
 document.getElementById('random').onclick = random;
 document.getElementById('opacity').onclick = changeOpacity;
