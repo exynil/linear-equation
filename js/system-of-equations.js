@@ -34,7 +34,6 @@ class SystemOfEquations {
 			if (y == Infinity || NaN || y == -Infinity) {
 				x = this.coefficients[i][2] / this.coefficients[i][0];
 				y = -100;
-				console.log('1');
 			}
 
 			this.variables[i].push({
@@ -48,7 +47,6 @@ class SystemOfEquations {
 			if (y == Infinity || NaN || y == -Infinity) {
 				x = this.coefficients[i][2] / this.coefficients[i][0];;
 				y = 100;
-				console.log('1');
 			}
 
 			this.variables[i].push({

@@ -165,7 +165,6 @@ class CoordinateSystem {
 			this.ctx.restore();
 			this.ctx.closePath();
 		}
-		console.log(points);
 	}
 
 	addAPointToTheRuler(x, y) {
@@ -291,29 +290,14 @@ class CoordinateSystem {
 					y: (this.centerY - mouseY) / this.scale
 				};
 
-				let ab = {
-					x: a.x - b.x,
-					y: a.y - b.y
-				};
-
-				let cd = {
-					x: c.x - d.x,
-					y: c.y - d.y
-				};
-
-				let abcd = ab.x * cd.x + ab.y * cd.y;
-
-				let abv = Math.pow(ab.x, 2) + Math.pow(ab.y, 2);
-
-				let cdv = Math.pow(cd.x, 2) + Math.pow(cd.y, 2);
-
-				let alpha = abcd / Math.sqrt(abv * cdv);
+				let alpha = this.getAngle(a, b, c, d);
 
 				// Прорисовка угла и окружности
 				this.ctx.beginPath();
 				this.ctx.save();
 				this.ctx.strokeStyle = this.rulerLineColor;
-				this.ctx.arc(this.centerX + a.x * this.scale, this.centerY - a.y * this.scale, 50, Math.PI * 2 - alpha, false);
+				// this.ctx.arc(this.centerX + a.x * this.scale, this.centerY - a.y * this.scale, 50, Math.PI * 2 - alpha, false);
+				this.ctx.arc(this.centerX + a.x * this.scale, this.centerY - a.y * this.scale, 50, Math.PI * alpha, Math.PI);
 				this.ctx.font = 'bold 10pt Courier New';
 				this.ctx.textAlign = 'center';
 				this.ctx.textBaseline = 'bottom';
@@ -409,8 +393,24 @@ class CoordinateSystem {
 			this.lineType = true;
 		}
 	}
-	getAngle() {
+	getAngle(a, b, c, d) {
+		let ab = {
+			x: a.x - b.x,
+			y: a.y - b.y
+		};
 
+		let cd = {
+			x: c.x - d.x,
+			y: c.y - d.y
+		};
+
+		let abcd = ab.x * cd.x + ab.y * cd.y;
+
+		let abv = Math.pow(ab.x, 2) + Math.pow(ab.y, 2);
+
+		let cdv = Math.pow(cd.x, 2) + Math.pow(cd.y, 2);
+
+		return abcd / Math.sqrt(abv * cdv);
 	}
 	getDistance(x1, y1, x2, y2) {
 		let xDistance = x2 - x1;

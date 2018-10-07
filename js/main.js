@@ -28,7 +28,7 @@ function init() {
 	initTestCoefficients(); // импорт тестовых данных
 
 	cs.update(mouse.x, mouse.y);
-	// toggleRuler();
+	toggleRuler();
 }
 
 init();
