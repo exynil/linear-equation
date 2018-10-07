@@ -1,8 +1,6 @@
 var canvas = document.querySelector('canvas');
 var ctx = canvas.getContext('2d');
 
-var colors = ['#00FF7F', '#7B68EE', '#00FFFF'];
-
 var mouse = {
 	x: 0,
 	y: 0
@@ -25,22 +23,55 @@ function init() {
 	form = new Form(rows, cols);
 
 	form.updateForm(rows, cols);
+	tieButtons();
 
 	initTestCoefficients(); // импорт тестовых данных
 
 	cs.update(mouse.x, mouse.y);
-	toggleRuler();
+	// toggleRuler();
 }
 
 init();
 
+function tieButtons() {
+	let fields = document.getElementsByClassName('field');
+
+	for (let i = 0; i < fields.length; i++) {
+		fields[i].oninput = function() {
+			draw();
+		}
+	}
+
+	let deleteFieldButtons = document.getElementsByClassName('delete-field-button');
+
+	for (let i = 0; i < deleteFieldButtons.length; i++) {
+		deleteFieldButtons[i].onclick = function() {
+			this.parentElement.parentElement.parentElement.parentElement.remove();
+			form.rows--;
+			draw();
+		}
+	}
+
+	let colorFieldButtons = document.getElementsByClassName('color');
+
+	for (let i = 0; i < colorFieldButtons.length; i++) {
+		colorFieldButtons[i].onchange = function(event) {
+			draw();
+		}
+	}
+}
+
+// Уменьшение формы
 function reduce() {
 	form.reduce();
+	tieButtons();
 	soe.reduce();
 }
 
+// Увеличение формы
 function increase() {
 	form.increase();
+	tieButtons();
 	soe.increase();
 }
 
@@ -63,7 +94,7 @@ function drawWithoutinItialization() {
 	cs.update(mouse.x, mouse.y);
 }
 
-// Работает
+// Клик
 function onclick(event) {
 	if (event.target.localName == 'div' || event.target.localName == 'canvas') {
 		if (cs.ruler) {
@@ -81,6 +112,7 @@ function onclick(event) {
 
 }
 
+// Включение и отключение рулетки
 function toggleRuler() {
 	cs.toggleRuler();
 	if (cs.ruler) {
@@ -131,6 +163,7 @@ function deleteAllRulers() {
 	cs.deleteAllRulers();
 	drawWithoutinItialization();
 }
+
 // Включение и отключение прозрачности
 function changeOpacity() {
 	let panel = document.getElementById('panel');
@@ -153,23 +186,27 @@ function turnGridOnAndOff() {
 	drawWithoutinItialization();
 }
 
+// Уменьшения масштаба сетки
 function reduceGrid() {
 	cs.reduceGrid();
 	soe.update(cs.scale, cs.centerX, cs.centerY);
 	draw();
 }
 
+// Увеличение масштаба сетки
 function increaseGrid() {
 	cs.increaseGrid()
 	soe.update(cs.scale, cs.centerX, cs.centerY);
 	draw();
 }
 
+// Изменение вида прямых
 function toggleLineType() {
 	cs.toggleLineType();
 	drawWithoutinItialization();
 }
 
+// Сворачивание и развовачивание панели
 function minimizeControlPanel() {
 	let panel = document.getElementById('panel');
 	if (parseInt(getComputedStyle(document.getElementById('panel')).top) > -310) {
@@ -184,9 +221,7 @@ function minimizeControlPanel() {
 
 // Импорт коэффицентов для тестирования
 function initTestCoefficients() {
-	// Экспорт коэфицентов для тестирования
 	let fields = document.getElementsByClassName('field');
-
 	let symbols = document.getElementsByClassName('symbol');
 
 	symbols[4].value = '>=';
@@ -200,15 +235,6 @@ function initTestCoefficients() {
 		[1, 0, 0],
 		[0, 1, 0]
 	];
-
-	// let fieldValues = [
-	// 	[-3, 2, -7],
-	// 	[-7, -3, -7],
-	// 	[-2, -5, -7],
-	// 	[-9, -9, -3],
-	// 	[6, 9, -1],
-	// 	[-6, -1, 3]
-	// ];
 
 	for (let i = 0; i < fieldValues.length; i++) {
 		for (let j = 0; j < soe.cols; j++) {

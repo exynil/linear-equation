@@ -19,8 +19,9 @@ class CoordinateSystem {
 		this.rulerPoints = [];
 		this.rulerLineColor = '#14F8FF';
 		this.rulerPointColor = '#FF9300';
-		this.rulerAngleColor = '#FCD130';
-		this.rulerPointCoordinateColor = '#FF9300';
+		this.rulerAngleColor = '#83FF72';
+		this.rulerPointCoordinateColor = '#FCD130';
+		this.rulerMainTextColor = '#FCD130';
 		this.ruler = false;
 		this.rulerLength;
 		this.theNumberOfPointsInTheLine;
@@ -164,6 +165,7 @@ class CoordinateSystem {
 			this.ctx.restore();
 			this.ctx.closePath();
 		}
+		console.log(points);
 	}
 
 	addAPointToTheRuler(x, y) {
@@ -196,7 +198,7 @@ class CoordinateSystem {
 				this.ctx.textAlign = 'center';
 				this.ctx.textBaseline = 'top';
 				this.ctx.fillStyle = this.rulerPointCoordinateColor;
-				this.ctx.fillText(dist, textX, textY + 5);
+				this.ctx.fillText(dist, textX, textY + 10);
 				this.ctx.restore();
 				this.ctx.closePath();
 			}
@@ -258,7 +260,7 @@ class CoordinateSystem {
 					this.ctx.textBaseline = 'top';
 				}
 
-				this.ctx.fillStyle = this.rulerPointColor;
+				this.ctx.fillStyle = this.rulerMainTextColor;
 				this.ctx.fillText(length, mouseX + marginLeft, mouseY + marginTop);
 				this.ctx.fillText(coordinates, mouseX + marginLeft, mouseY + marginTop + 20);
 				this.ctx.restore();
@@ -316,7 +318,7 @@ class CoordinateSystem {
 				this.ctx.textAlign = 'center';
 				this.ctx.textBaseline = 'bottom';
 				this.ctx.fillStyle = this.rulerAngleColor;
-				this.ctx.fillText((Math.acos(alpha) * 180 / Math.PI).toFixed(2) + '°', this.centerX + a.x * this.scale, this.centerY - a.y * this.scale - 5);
+				this.ctx.fillText((Math.acos(alpha) * 180 / Math.PI).toFixed(2) + '°', this.centerX + a.x * this.scale, this.centerY - a.y * this.scale - 10);
 				this.ctx.stroke();
 				this.ctx.restore();
 				this.ctx.closePath();

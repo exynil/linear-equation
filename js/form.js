@@ -86,21 +86,24 @@ class Form {
 	}
 	// Уменьшение системы
 	reduce() {
-		this.saveData();
 		if (this.rows > 1) {
+			this.saveData();
 			this.rows--;
 			this.updateForm();
+			this.restoreData();
 		}
-		this.restoreData();
 	}
 	// Увеличение системы
 	increase() {
-		this.saveData();
 		if (this.rows < 100) {
+			this.saveData();
 			this.rows++;
 			this.updateForm();
+			this.restoreData();
 		}
-		this.restoreData();
+	}
+	reduceRows() {
+		this.rows--;
 	}
 	// Реконструкция формы
 	updateForm() {
@@ -112,7 +115,7 @@ class Form {
 			code += '<div class="col-2">';
 			code += '<div class="form-group row">';
 			code += '<div class="col-12">';
-			code += '<input class="form-control color" tabindex="1" type="color" value="#2DFFB3">';
+			code += '<input class="form-control color" tabindex="1" type="color" value="#27EBA4">';
 			code += '</div>';
 			code += '</div>';
 			code += '</div>';
@@ -144,30 +147,31 @@ class Form {
 		// Добавляем сгенерированный код формы в блок формы
 		document.getElementById('form').innerHTML = code;
 
-		let fields = document.getElementsByClassName('field');
+		// let fields = document.getElementsByClassName('field');
 
-		for (let i = 0; i < fields.length; i++) {
-			fields[i].oninput = function() {
-				draw(); // [осторожно! зависимая функция]
-			}
-		}
+		// for (let i = 0; i < fields.length; i++) {
+		// 	fields[i].oninput = function() {
+		// 		draw(); // [внешняя функция]
+		// 	}
+		// }
 
-		let deleteFieldButtons = document.getElementsByClassName('delete-field-button');
+		// let deleteFieldButtons = document.getElementsByClassName('delete-field-button');
 
-		for (let i = 0; i < deleteFieldButtons.length; i++) {
-			deleteFieldButtons[i].onclick = function() {
-				this.parentElement.parentElement.parentElement.parentElement.remove();
-				this.rows--;
-				draw(); // [осторожно! зависимая функция]
-			}
-		}
+		// for (let i = 0; i < deleteFieldButtons.length; i++) {
+		// 	deleteFieldButtons[i].onclick = function() {
+		// 		this.parentElement.parentElement.parentElement.parentElement.remove();
+		// 		form.rows--;
+		// 		draw(); // [внешняя функция]
+		// 	}
+		// }
 
-		let colorFieldButtons = document.getElementsByClassName('color');
+		// let colorFieldButtons = document.getElementsByClassName('color');
 
-		for (let i = 0; i < colorFieldButtons.length; i++) {
-			colorFieldButtons[i].onchange = function(event) {
-				draw(); // [осторожно! зависимая функция]
-			}
-		}
+		// for (let i = 0; i < colorFieldButtons.length; i++) {
+		// 	colorFieldButtons[i].onchange = function(event) {
+		// 		draw(); // [внешняя функция]
+		// 	}
+		// }
 	}
+	
 }

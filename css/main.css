@@ -53,9 +53,9 @@ canvas {
 }
 
 #panel input, #panel select {
-	color: #2dffb3;
+	color: #27EBA4;
 	background-color: #111;
-	border-color: #2dffb3;
+	border-color: #27EBA4;
 	border-radius: 0.5rem;
 }
 
@@ -64,20 +64,20 @@ canvas {
 }
 
 .btn-outline-success {
-	color: #2dffb3;
-	border-color: #2dffb3;
+	color: #27EBA4;
+	border-color: #27EBA4;
 }
 
 .btn-outline-success:hover {
 	color: #212529;
-	background-color: #2dffb3;
-	border-color: #2dffb3;
+	background-color: #27EBA4;
+	border-color: #27EBA4;
 }
 
 .btn-outline-success:not(:disabled):not(.disabled):active {
 	color: #212529;
-	background-color: #2dffb3;
-	border-color: #2dffb3;
+	background-color: #27EBA4;
+	border-color: #27EBA4;
 }
 
 .btn-outline-danger {
@@ -111,4 +111,8 @@ canvas {
 .tooltip-inner {
 	background-color: #2DFFB3;
 	color: #212529;
+}
+
+.tooltip.bs-tooltip-bottom .arrow:before {
+  border-bottom-color: #2DFFB3;
 }

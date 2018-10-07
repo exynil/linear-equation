@@ -1,7 +1,9 @@
 // Отслеживание изменения размера окна
 addEventListener('resize', function() {
-	cs.centerX = canvas.width = innerWidth;
-	cs.centerY = canvas.height = innerHeight;
+	canvas.width = innerWidth;
+	canvas.height = innerHeight;
+	cs.centerX = canvas.width / 2;
+	cs.centerY = canvas.height / 2;
 	soe.update(cs.scale, cs.centerX, cs.centerY);
 	draw();
 })

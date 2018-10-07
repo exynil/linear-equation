@@ -32,8 +32,9 @@ class SystemOfEquations {
 			let y = (this.coefficients[i][2] + -this.coefficients[i][0] * x) / this.coefficients[i][1];
 
 			if (y == Infinity || NaN || y == -Infinity) {
-				x = 0;
+				x = this.coefficients[i][2] / this.coefficients[i][0];
 				y = -100;
+				console.log('1');
 			}
 
 			this.variables[i].push({
@@ -45,8 +46,9 @@ class SystemOfEquations {
 			y = (this.coefficients[i][2] + -this.coefficients[i][0] * x) / this.coefficients[i][1];
 
 			if (y == Infinity || NaN || y == -Infinity) {
-				x = 0;
+				x = this.coefficients[i][2] / this.coefficients[i][0];;
 				y = 100;
+				console.log('1');
 			}
 
 			this.variables[i].push({
@@ -102,15 +104,6 @@ class SystemOfEquations {
 			}
 		}
 		return points;
-	}
-	convert(points) {
-
-		// for (let i = 0; i < points[i].length; i++) {
-		// 	let min = points[0].;
-		// 	for (let j = 0; j < points.length; j++) {
-		// 		if
-		// 	}
-		// }
 	}
 	update(scale, centerX, centerY) {
 		this.scale = scale;
