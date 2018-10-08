@@ -6,9 +6,6 @@ var mouse = {
 	y: 0
 }
 
-canvas.width = innerWidth;
-canvas.height = innerHeight;
-
 var cs; // Система координат
 var soe; // Система уравнений
 var form; // Панель управления
@@ -18,6 +15,8 @@ function init() {
 	let rows = 6;
 	let cols = 3;
 	let scale = 30;
+	canvas.width = innerWidth;
+	canvas.height = innerHeight;
 	cs = new CoordinateSystem(canvas, ctx, scale);
 	soe = new SystemOfEquations(rows, cols, cs.scale, cs.centerX, cs.centerY);
 	form = new Form(rows, cols);
@@ -28,7 +27,7 @@ function init() {
 	initTestCoefficients(); // импорт тестовых данных
 
 	cs.update(mouse.x, mouse.y);
-	toggleRuler();
+	// toggleRuler();
 }
 
 init();
