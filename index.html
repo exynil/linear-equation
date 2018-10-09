@@ -27,7 +27,7 @@
                             <i id="delete-all-rulers" class="btn btn-outline-warning material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Удалить все линейки">timeline</i>
                             <i id="deleteAll" class="btn btn-outline-danger material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Очистить систему координат">delete</i>
                             <i id="gesture" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Вкл/откл рисование (Функция временно не работает)">gesture</i>
-                            <i id="point" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Вкл/откл установку точек (Функция временно не работает)">scatter_plot</i>
+                            <i id="point" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Вкл/откл установку точек">scatter_plot</i>
                             <i id="ruler" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Вкл/откл установку линеек">timeline</i>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                         <i id="opacity" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Вкл/откл прозрачность">visibility</i>
                         <i id="settings" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Настройки (Функция временно не работает)">build</i>
                         <i id="lock" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Блокировка (Функция временно не работает)">lock</i>
-                        <i id="help" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="modal" data-target="#modalAboutCenter">contact_support</i>
+                        <i class="btn btn-outline-success material-icons font-weight-bold" data-toggle="modal" data-target="#modalAboutCenter">contact_support</i>
                         <i class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Нажмите и удерживайте для перемещения">drag_indicator</i>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
             <div class="col-12">
                 <div class="form-group row">
                     <div class="col-12 text-center">
-                        <i id="minimize" class="btn text-warning material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Свернуть/развернуть панель управления">expand_less</i>
+                        <i id="minimize" class="btn text-warning material-icons font-weight-bold">expand_less</i>
                     </div>
                 </div>
             </div>
@@ -121,6 +121,13 @@
                         </p>
                         <p class="text-center">
                             <span class="font-weight-bold">
+                                <kbd>Ctrl</kbd>
+                                + <kbd>ПКМ</kbd>
+                            </span>
+                            <span>- перемещние точек в линейке</span>
+                        </p>
+                        <p class="text-center">
+                            <span class="font-weight-bold">
                                 <kbd>Del</kbd>
                             </span>
                             <span>- удаление последней точки в линейке</span>
@@ -133,9 +140,9 @@
             </div>
         </div>
     </section>
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="js/libs/jquery-3.3.1.min.js"></script>
+    <script src="js/libs/popper.min.js"></script>
+    <script src="js/libs/bootstrap.min.js"></script>
     <script src="js/coordinate-system.js"></script>
     <script src="js/system-of-equations.js"></script>
     <script src="js/form.js"></script>

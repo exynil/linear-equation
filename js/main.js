@@ -8,7 +8,7 @@ var mouse = {
 
 var cs; // Система координат
 var soe; // Система уравнений
-var form; // Панель управления
+var form; // Форма
 
 // Начальная инициализация и настройка объектов
 function init() {
@@ -27,7 +27,6 @@ function init() {
 	initTestCoefficients(); // импорт тестовых данных
 
 	cs.update(mouse.x, mouse.y);
-	// toggleRuler();
 }
 
 init();
@@ -61,17 +60,17 @@ function tieButtons() {
 }
 
 // Уменьшение формы
-function reduce() {
-	form.reduce();
+function reducingForm() {
+	form.reducingForm();
 	tieButtons();
-	soe.reduce();
+	soe.reducingSystemOfEquation();
 }
 
 // Увеличение формы
-function increase() {
-	form.increase();
+function increasingForm() {
+	form.increasingForm();
 	tieButtons();
-	soe.increase();
+	soe.increasingSystemOfEquation();
 }
 
 // Работает
@@ -86,43 +85,89 @@ function draw() {
 	cs.update(mouse.x, mouse.y);
 }
 
-function drawWithoutinItialization() {
+function drawWithoutInitialization() {
 	// Очистка холста
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	// Прорисовка
 	cs.update(mouse.x, mouse.y);
 }
 
-// Клик
+// Обработка события клик
 function onclick(event) {
 	if (event.target.localName == 'div' || event.target.localName == 'canvas') {
-		if (cs.ruler) {
+		if (cs.ruler && !event.ctrlKey) {
 			cs.addAPointToTheRuler((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
-			drawWithoutinItialization();
-		} else {
+			drawWithoutInitialization();
+		}
+		if (cs.point) {
 			if (event.ctrlKey) {
 				cs.deletePoint((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
-				drawWithoutinItialization();
-			} else {
-				cs.drawPoint((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
+				drawWithoutInitialization();
+			} else if (cs.point) {
+				cs.addAndDrawPoint((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
 			}
 		}
 	}
-
 }
 
-// Включение и отключение рулетки
+// Включение и отключение линейки
 function toggleRuler() {
 	cs.toggleRuler();
 	if (cs.ruler) {
-		window.onmousemove = function(event) {
-			mouse.x = event.x;
-			mouse.y = event.y;
-			drawWithoutinItialization();
-		}
+		window.onmousemove = trace;
+		this.className = 'btn btn-success material-icons font-weight-bold';
+		document.getElementById('point').className = 'btn btn-outline-success material-icons font-weight-bold';
 	} else {
 		window.onmousemove = null;
-		drawWithoutinItialization();
+		drawWithoutInitialization();
+		this.className = 'btn btn-outline-success material-icons font-weight-bold';
+	}
+}
+
+function togglePoint() {
+	cs.togglePoint();
+	if (cs.point) {
+		this.className = 'btn btn-success material-icons font-weight-bold';
+		drawWithoutInitialization();
+		document.getElementById('ruler').className = 'btn btn-outline-success material-icons font-weight-bold';
+	} else {
+		this.className = 'btn btn-outline-success material-icons font-weight-bold';
+	}
+}
+
+// Отслеживание курсора во время включенной линейки
+function trace(event) {
+	mouse.x = event.x;
+	mouse.y = event.y;
+	drawWithoutInitialization();
+	window.onmousedown = function(event) {
+		if (event.ctrlKey) {
+			let mx = (mouse.x - cs.centerX) / cs.scale;
+			let my = (cs.centerY - mouse.y) / cs.scale;
+			let rowIndex, colIndex;
+			for (let i = 0; i < cs.rulerPoints.length; i++) {
+				for (let j = 0; j < cs.rulerPoints[i].length; j++) {
+					if (mx > cs.rulerPoints[i][j].x - 10 / cs.scale && mx < cs.rulerPoints[i][j].x + 10 / cs.scale && my > cs.rulerPoints[i][j].y - 10 / cs.scale && my < cs.rulerPoints[i][j].y + 10 / cs.scale) {
+						rowIndex = i;
+						colIndex = j;
+						break;
+					}
+				}
+				if (rowIndex != undefined || colIndex != undefined) {
+					window.onmousemove = function(event) {
+						cs.rulerPoints[rowIndex][colIndex].x = (event.x - cs.centerX) / cs.scale;
+						cs.rulerPoints[rowIndex][colIndex].y = (cs.centerY - event.y) / cs.scale;
+						mouse.x = event.x;
+						mouse.y = event.y;
+						drawWithoutInitialization();
+					}
+					window.onmouseup = function() {
+						window.onmousemove = trace;
+					}
+					break;
+				}
+			}
+		}
 	}
 }
 
@@ -142,59 +187,59 @@ function deleteAll() {
 	cs.deleteAllLines();
 	cs.deleteAllPoints();
 	deleteAllRulers()
-	drawWithoutinItialization();
+	drawWithoutInitialization();
 }
 
 // Удаление всех прямых
 function deleteAllLines() {
 	cs.deleteAllLines();
-	drawWithoutinItialization();
+	drawWithoutInitialization();
 }
 
 // Удаление всех точек
 function deleteAllPoints() {
 	cs.deleteAllPoints();
-	drawWithoutinItialization();
+	drawWithoutInitialization();
 }
 
 // Удаление всех линеек
 function deleteAllRulers() {
 	cs.deleteAllRulers();
-	drawWithoutinItialization();
+	drawWithoutInitialization();
 }
 
 // Включение и отключение прозрачности
-function changeOpacity() {
+function toggleOpacity() {
 	let panel = document.getElementById('panel');
 	if (getComputedStyle(document.getElementById('panel')).opacity == '1') {
-		panel.style.opacity = '0.3';
+		panel.style.opacity = 0.3;
 	} else {
-		panel.style.opacity = '1';
+		panel.style.opacity = 1;
 	}
 }
 
 // Заполнение полей случайными коэффицентами
-function random() {
-	form.random();
+function randomCoefficients() {
+	form.randomCoefficients();
 	draw();
 }
 
 // Включение и отключение прозрачности
-function turnGridOnAndOff() {
-	cs.turnGridOnAndOff();
-	drawWithoutinItialization();
+function toggleGrid() {
+	cs.toggleGrid();
+	drawWithoutInitialization();
 }
 
 // Уменьшения масштаба сетки
-function reduceGrid() {
-	cs.reduceGrid();
+function reducingGrid() {
+	cs.reducingGrid();
 	soe.update(cs.scale, cs.centerX, cs.centerY);
 	draw();
 }
 
 // Увеличение масштаба сетки
-function increaseGrid() {
-	cs.increaseGrid()
+function increasingGrid() {
+	cs.increasingGrid()
 	soe.update(cs.scale, cs.centerX, cs.centerY);
 	draw();
 }
@@ -202,19 +247,18 @@ function increaseGrid() {
 // Изменение вида прямых
 function toggleLineType() {
 	cs.toggleLineType();
-	drawWithoutinItialization();
+	drawWithoutInitialization();
 }
 
 // Сворачивание и развовачивание панели
 function minimizeControlPanel() {
 	let panel = document.getElementById('panel');
-	if (parseInt(getComputedStyle(document.getElementById('panel')).top) > -310) {
+	if (parseInt(getComputedStyle(document.getElementById('panel')).top) > -(parseInt(getComputedStyle(panel).height) - 200)) {
 		panel.style.top = -(parseInt(getComputedStyle(panel).height) - 200) + 'px';
 		this.textContent = 'expand_more';
 	} else {
 		panel.style.top = 20 + 'px';
 		this.textContent = 'expand_less';
-
 	}
 }
 

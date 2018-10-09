@@ -32,7 +32,7 @@ addEventListener('keydown', function(event) {
 	switch (event.code) {
 		case 'Delete':
 			cs.deleteLastPointInRuler();
-			drawWithoutinItialization();
+			drawWithoutInitialization();
 			break;
 	}
 })
@@ -66,7 +66,7 @@ function dragElement(elmnt) {
 		y = event.pageY;
 		elmnt.style.left = x - left + 'px';
 		elmnt.style.top = y - top + 'px';
-		if (parseInt(getComputedStyle(document.getElementById('panel')).top) > -310) {
+		if (parseInt(getComputedStyle(document.getElementById('panel')).top) > -(parseInt(getComputedStyle(panel).height) - 200)) {
 			document.getElementById('minimize').textContent = 'expand_less';
 		} else {
 			document.getElementById('minimize').textContent = 'expand_more';
@@ -91,19 +91,20 @@ $(function() {
 	});
 })
 
-document.getElementById('reduce').onclick = reduce;
-document.getElementById('increase').onclick = increase;
+document.getElementById('reduce').onclick = reducingForm;
+document.getElementById('increase').onclick = increasingForm;
 document.getElementById('draw').onclick = draw;
 document.getElementById('fill').onclick = fill;
 document.getElementById('deleteAll').onclick = deleteAll;
 document.getElementById('clear').onclick = clearFields;
-document.getElementById('random').onclick = random;
-document.getElementById('opacity').onclick = changeOpacity;
-document.getElementById('grid').onclick = turnGridOnAndOff;
+document.getElementById('random').onclick = randomCoefficients;
+document.getElementById('opacity').onclick = toggleOpacity;
+document.getElementById('grid').onclick = toggleGrid;
+document.getElementById('point').onclick = togglePoint;
 document.getElementById('delete-all-lines').onclick = deleteAllLines;
 document.getElementById('delete-all-points').onclick = deleteAllPoints;
-document.getElementById('reduce-grid').onclick = reduceGrid;
-document.getElementById('increase-grid').onclick = increaseGrid;
+document.getElementById('reduce-grid').onclick = reducingGrid;
+document.getElementById('increase-grid').onclick = increasingGrid;
 document.getElementById('ruler').onclick = toggleRuler;
 document.getElementById('delete-all-rulers').onclick = deleteAllRulers;
 document.getElementById('line-type').onclick = toggleLineType;

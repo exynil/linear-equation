@@ -103,17 +103,20 @@ class SystemOfEquations {
 		}
 		return points;
 	}
+	filter(points) {
+
+	}
 	update(scale, centerX, centerY) {
 		this.scale = scale;
 		this.centerX = centerX / this.scale;
 		this.centerY = centerY / this.scale;
 	}
-	reduce() {
+	reducingSystemOfEquation() {
 		if (this.rows > 1) {
 			this.rows--;
 		}
 	}
-	increase() {
+	increasingSystemOfEquation() {
 		if (this.rows < 100) {
 			this.rows++;
 		}

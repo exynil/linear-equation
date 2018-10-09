@@ -56,7 +56,7 @@ class Form {
 		}
 	}
 	// Заполнение системы случайными коэфицентами
-	random() {
+	randomCoefficients() {
 		let fields = document.getElementsByClassName('field');
 
 		for (let i = 0; i < fields.length; i++) {
@@ -85,7 +85,7 @@ class Form {
 		}
 	}
 	// Уменьшение системы
-	reduce() {
+	reducingForm() {
 		if (this.rows > 1) {
 			this.saveData();
 			this.rows--;
@@ -94,7 +94,7 @@ class Form {
 		}
 	}
 	// Увеличение системы
-	increase() {
+	increasingForm() {
 		if (this.rows < 100) {
 			this.saveData();
 			this.rows++;
@@ -102,7 +102,7 @@ class Form {
 			this.restoreData();
 		}
 	}
-	reduceRows() {
+	reducingRows() {
 		this.rows--;
 	}
 	// Реконструкция формы

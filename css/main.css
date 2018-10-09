@@ -63,6 +63,24 @@ canvas {
 	border-radius: 0.5rem;
 }
 
+.btn-success {
+	color: #212529;
+	background-color: #27EBA4;
+	border-color: #27EBA4;
+}
+
+.btn-success:hover {
+	color: #212529;
+	background-color: #27EBA4;
+	border-color: #27EBA4;
+}
+
+.btn-success:not(:disabled):not(.disabled):active {
+	color: #212529;
+	background-color: #27EBA4;
+	border-color: #27EBA4;
+}
+
 .btn-outline-success {
 	color: #27EBA4;
 	border-color: #27EBA4;

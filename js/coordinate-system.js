@@ -7,22 +7,24 @@ class CoordinateSystem {
 		this.gridStatus = true;
 		this.scale = scale;
 		this.axisLineWidth = 1;
-		this.axisLineColor = '#FF9300';
+		this.axisLineColor = '#FF9000';
 		this.gridLineWidth = 0.5;
 		this.gridLineColor = 'gray';
 		this.numberColor = 'gray';
 		this.pointColor = '#B114FF';
-		this.pointRadius = 4;
+		this.pointRadius = 5;
 		this.coordinatesOfPoints = [];
 		this.coordinatesOfLines = [];
 		this.lineСolors = [];
 		this.rulerPoints = [];
 		this.rulerLineColor = '#14F8FF';
-		this.rulerPointColor = '#FF9300';
-		this.rulerAngleColor = '#83FF72';
-		this.rulerPointCoordinateColor = '#FCD130';
-		this.rulerMainTextColor = '#FCD130';
+		this.rulerPointColor = '#FF9000';
+		this.rulerAngleColor = '#14F8FF';
+		this.rulerPointCoordinateColor = '#FF9000';
+		this.rulerMainTextColor = '#27EBA4';
+		this.rulerMouseTextColor = '#FF9000';
 		this.ruler = false;
+		this.point = false;
 		this.rulerLength;
 		this.theNumberOfPointsInTheLine;
 		this.lineType = false;
@@ -94,7 +96,6 @@ class CoordinateSystem {
 			this.ctx.fillText(i / this.scale, this.centerX + i, this.centerY);
 			this.ctx.fillText(-i / this.scale, this.centerX - i, this.centerY);
 		}
-
 		// Прорисовка Y положительных и Y отрицательных
 		for (let i = this.scale; i < this.centerY; i += this.scale) {
 			this.ctx.fillText(i / this.scale, this.centerX, this.centerY - i);
@@ -115,7 +116,6 @@ class CoordinateSystem {
 			this.ctx.restore();
 			this.ctx.closePath();
 		}
-
 		for (let i = this.centerY % this.scale; i < this.canvas.height; i += this.scale) {
 			this.ctx.beginPath();
 			this.ctx.save();
@@ -165,6 +165,19 @@ class CoordinateSystem {
 			this.ctx.restore();
 			this.ctx.closePath();
 		}
+		// for (let i = 0; i < points.length; i++) {
+		// 	for (let j = i + 1; j < points.length; j++) {
+		// 		this.ctx.beginPath();
+		// 		this.ctx.save();
+		// 		this.ctx.moveTo(points[i].x, points[i].y);
+		// 		this.ctx.lineTo(points[j].x, points[j].y);
+		// 		this.ctx.strokeStyle = 'rgba(255, 104, 104, 1)';
+		// 		this.ctx.lineWidth = 1;
+		// 		this.ctx.stroke();
+		// 		this.ctx.restore();
+		// 		this.ctx.closePath();
+		// 	}
+		// }
 	}
 
 	addAPointToTheRuler(x, y) {
@@ -193,7 +206,7 @@ class CoordinateSystem {
 				this.ctx.lineTo(this.rulerPoints[i][j + 1].x * this.scale + this.centerX, this.centerY - this.rulerPoints[i][j + 1].y * this.scale);
 				this.ctx.strokeStyle = this.rulerLineColor;
 				this.ctx.stroke();
-				this.ctx.font = 'bold 10pt Courier New';
+				this.ctx.font = 'bold 11pt Courier New';
 				this.ctx.textAlign = 'center';
 				this.ctx.textBaseline = 'top';
 				this.ctx.fillStyle = this.rulerPointCoordinateColor;
@@ -216,7 +229,7 @@ class CoordinateSystem {
 				this.ctx.beginPath();
 				this.ctx.save();
 				this.ctx.strokeStyle = this.rulerLineColor;
-				this.ctx.arc(this.rulerPoints[i][j].x * this.scale + this.centerX, this.centerY - this.rulerPoints[i][j].y * this.scale, 6, Math.PI * 2, false);
+				this.ctx.arc(this.rulerPoints[i][j].x * this.scale + this.centerX, this.centerY - this.rulerPoints[i][j].y * this.scale, 7, Math.PI * 2, false);
 				this.ctx.stroke();
 				this.ctx.restore();
 				this.ctx.closePath();
@@ -232,12 +245,12 @@ class CoordinateSystem {
 
 				this.ctx.beginPath();
 				this.ctx.save();
-				this.ctx.setLineDash([3, 5]);
+				this.ctx.setLineDash([5, 5]);
 				this.ctx.moveTo(x * this.scale + this.centerX, this.centerY - y * this.scale);
 				this.ctx.lineTo(mouseX, mouseY);
 				this.ctx.strokeStyle = this.rulerLineColor;
 				this.ctx.stroke();
-				this.ctx.font = 'bold 10pt Courier New';
+				this.ctx.font = 'bold 11pt Courier New';
 
 				let length = 'Длина: ' + dist;
 				let coordinates = '[x: ' + ((mouseX - this.centerX) / this.scale).toFixed(1) + ', y:' + ((this.centerY - mouseY) / this.scale).toFixed(1) + ']';
@@ -259,7 +272,7 @@ class CoordinateSystem {
 					this.ctx.textBaseline = 'top';
 				}
 
-				this.ctx.fillStyle = this.rulerMainTextColor;
+				this.ctx.fillStyle = this.rulerMouseTextColor;
 				this.ctx.fillText(length, mouseX + marginLeft, mouseY + marginTop);
 				this.ctx.fillText(coordinates, mouseX + marginLeft, mouseY + marginTop + 20);
 				this.ctx.restore();
@@ -269,14 +282,14 @@ class CoordinateSystem {
 				this.theNumberOfPointsInTheLine = this.rulerPoints[this.rulerPoints.length - 1].length;
 				this.ctx.beginPath();
 				this.ctx.save();
-				this.ctx.shadowBlur = 10;
-				this.ctx.shadowColor = this.rulerPointColor;
-				this.ctx.font = 'bold 13pt Courier New';
+				this.ctx.shadowBlur = 5;
+				this.ctx.shadowColor = this.rulerMainTextColor;
+				this.ctx.font = '13pt Courier New';
 				this.ctx.textAlign = 'left';
-				this.ctx.fillStyle = this.rulerPointColor;
-				this.ctx.fillText('Общая длина: ' + this.rulerLength.toFixed(2) + ' ед.', this.canvas.width - 300, 50);
-				this.ctx.fillText('Кол-во точек: ' + this.theNumberOfPointsInTheLine, this.canvas.width - 300, 100);
-				this.ctx.fillText('Кол-во сегментов: ' + (this.theNumberOfPointsInTheLine - 1), this.canvas.width - 300, 150);
+				this.ctx.fillStyle = this.rulerMainTextColor;
+				this.ctx.fillText('Общая длина: ' + this.rulerLength.toFixed(2) + ' ед.', this.canvas.width - 300, this.canvas.height - 110);
+				this.ctx.fillText('Кол-во точек: ' + this.theNumberOfPointsInTheLine, this.canvas.width - 300, this.canvas.height - 80);
+				this.ctx.fillText('Кол-во сегментов: ' + (this.theNumberOfPointsInTheLine - 1), this.canvas.width - 300, this.canvas.height - 50);
 				this.ctx.restore();
 				this.ctx.closePath();
 			}
@@ -292,13 +305,21 @@ class CoordinateSystem {
 
 				let alpha = this.getAngle(a, b, c, d);
 
+				let radians = Math.acos(alpha);
+
 				// Прорисовка угла и окружности
 				this.ctx.beginPath();
 				this.ctx.save();
 				this.ctx.strokeStyle = this.rulerLineColor;
 				// this.ctx.arc(this.centerX + a.x * this.scale, this.centerY - a.y * this.scale, 50, Math.PI * 2 - alpha, false);
-				this.ctx.arc(this.centerX + a.x * this.scale, this.centerY - a.y * this.scale, 50, Math.PI * alpha, Math.PI);
-				this.ctx.font = 'bold 10pt Courier New';
+
+				let startAngle = 0;
+				let endAngle = radians;
+				let anticlockwise = false;
+
+
+				this.ctx.arc(this.centerX + a.x * this.scale, this.centerY - a.y * this.scale, 50, startAngle, endAngle, anticlockwise);
+				this.ctx.font = 'bold 11pt Courier New';
 				this.ctx.textAlign = 'center';
 				this.ctx.textBaseline = 'bottom';
 				this.ctx.fillStyle = this.rulerAngleColor;
@@ -317,13 +338,21 @@ class CoordinateSystem {
 			this.ruler = false;
 		} else {
 			this.ruler = true;
+			this.point = false;
 			if (this.rulerPoints[this.rulerPoints.length - 1] != 0) {
 				this.rulerPoints.push([]);
 			}
 		}
 	}
-
-	drawPoint(x, y) {
+	togglePoint() {
+		if (this.point) {
+			this.point = false;
+		} else {
+			this.point = true;
+			this.ruler = false;
+		}
+	}
+	addAndDrawPoint(x, y) {
 		this.coordinatesOfPoints.push({
 			x: x,
 			y: y
@@ -338,6 +367,19 @@ class CoordinateSystem {
 		this.ctx.restore();
 		this.ctx.closePath();
 	}
+	drawAllPoints() {
+		for (let i = 0; i < this.coordinatesOfPoints.length; i++) {
+			this.ctx.beginPath();
+			this.ctx.save();
+			this.ctx.shadowBlur = 30;
+			this.ctx.shadowColor = this.pointColor;
+			this.ctx.fillStyle = this.pointColor;
+			this.ctx.arc(this.coordinatesOfPoints[i].x * this.scale + this.centerX, this.centerY - this.coordinatesOfPoints[i].y * this.scale, this.pointRadius, Math.PI * 2, false);
+			this.ctx.fill();
+			this.ctx.restore();
+			this.ctx.closePath();
+		}
+	}
 	deletePoint(x, y) {
 		for (let i = 0; i < this.coordinatesOfPoints.length; i++) {
 			let point = {
@@ -350,19 +392,6 @@ class CoordinateSystem {
 		}
 		this.update();
 	}
-	drawAllPoints(x, y) {
-		for (let i = 0; i < this.coordinatesOfPoints.length; i++) {
-			this.ctx.beginPath();
-			this.ctx.save();
-			this.ctx.shadowBlur = 30;
-			this.ctx.shadowColor = this.pointColor;
-			this.ctx.arc(this.coordinatesOfPoints[i].x * this.scale + this.centerX, this.centerY - this.coordinatesOfPoints[i].y * this.scale, this.pointRadius, Math.PI * 2, false);
-			this.ctx.fillStyle = this.pointColor;
-			this.ctx.fill();
-			this.ctx.restore();
-			this.ctx.closePath();
-		}
-	}
 	deleteAllPoints() {
 		this.coordinatesOfPoints = [];
 	}
@@ -373,15 +402,15 @@ class CoordinateSystem {
 		this.rulerPoints = [];
 	}
 	// Включение и отключение сетки
-	turnGridOnAndOff() {
+	toggleGrid() {
 		(this.gridStatus) ? this.gridStatus = false: this.gridStatus = true;
 	}
-	reduceGrid() {
+	reducingGrid() {
 		if (this.scale > 20) {
 			this.scale -= 5;
 		}
 	}
-	increaseGrid() {
+	increasingGrid() {
 		if (this.scale < 150) {
 			this.scale += 5;
 		}
