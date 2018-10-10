@@ -31,6 +31,7 @@ class CoordinateSystem {
 		this.fillColorOfTheRangeOfValidValues = 'rgba(255, 69, 69, 0.4)';
 		this.errorColor = '#F50338';
 		this.numberingTextSize = 10;
+		this.binding = false;
 	}
 	initialization(coordinatesOfLines, colors) {
 		this.coordinatesOfLines = coordinatesOfLines;
@@ -169,6 +170,10 @@ class CoordinateSystem {
 	}
 
 	addAPointToTheRuler(x, y) {
+		if (this.binding) {
+			x = Math.round(x);
+			y = Math.round(y);
+		}
 		if (this.rulerPoints.length == 0) {
 			this.rulerPoints.push([]);
 		}
@@ -176,6 +181,12 @@ class CoordinateSystem {
 			x: x,
 			y: y
 		});
+	}
+	changePointLocation(row, col, newX, newY) {
+		if (this.binding) {
+			cs.rulerPoints[row][col].x = Math.round(newX);
+			cs.rulerPoints[row][col].y = Math.round(newY);
+		}
 	}
 	drawRulers(mouseX, mouseY) {
 		this.rulerLength = 0;
@@ -353,7 +364,18 @@ class CoordinateSystem {
 			this.ruler = false;
 		}
 	}
+	toggleBinding() {
+		if (this.binding) {
+			return this.binding = false;
+		} else {
+			return this.binding = true;
+		}
+	}
 	addAndDrawPoint(x, y) {
+		if (this.binding) {
+			x = Math.round(x);
+			y = Math.round(y);
+		}
 		this.coordinatesOfPoints.push({
 			x: x,
 			y: y

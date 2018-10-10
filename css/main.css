@@ -50,6 +50,9 @@ canvas {
 	width: 45rem;
 	z-index: 2;
 	transition: top 0.4s;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
 }
 
 #panel input, #panel select {

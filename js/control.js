@@ -37,8 +37,6 @@ addEventListener('keydown', function(event) {
 	}
 })
 
-
-
 function dragElement(elmnt) {
 	let x, y, left, top;
 
@@ -61,7 +59,6 @@ function dragElement(elmnt) {
 
 	function elementDrag(e) {
 		e = e || window.event;
-
 		x = event.pageX;
 		y = event.pageY;
 		elmnt.style.left = x - left + 'px';
@@ -81,15 +78,6 @@ function dragElement(elmnt) {
 }
 
 dragElement(document.getElementById('panel'));
-
-$(function() {
-	$('[data-toggle="tooltip"]').tooltip({
-		delay: {
-			show: 400,
-			hide: 100
-		}
-	});
-})
 
 document.onclick = onclick;
 document.getElementById('reduce').onclick = reducingForm;
@@ -112,3 +100,13 @@ document.getElementById('line-type').onclick = toggleLineType;
 document.getElementById('minimize').onclick = minimizeControlPanel;
 document.getElementById('lock').onclick = toggleLock;
 document.getElementById('point-method').onclick = togglePointMethod;
+document.getElementById('binding').onclick = toggleBinding;
+
+$(function() {
+	$('[data-toggle="tooltip"]').tooltip({
+		delay: {
+			show: 400,
+			hide: 100
+		}
+	});
+})

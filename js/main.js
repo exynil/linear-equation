@@ -12,7 +12,7 @@ var form; // Форма
 
 // Начальная инициализация и настройка объектов
 function init() {
-	let rows = 6;
+	let rows = 4;
 	let cols = 3;
 	let scale = 30;
 	canvas.width = innerWidth;
@@ -94,33 +94,13 @@ function drawWithoutInitialization() {
 
 // Обработка события клик
 function onclick(event) {
-	if (event.target.localName == 'div' || event.target.localName == 'canvas') {
-		if (cs.ruler && !event.ctrlKey) {
-			cs.addAPointToTheRuler((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
+	if (cs.point && (event.target.localName == 'div' || event.target.localName == 'canvas')) {
+		if (event.ctrlKey) {
+			cs.deletePoint((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
 			drawWithoutInitialization();
+		} else if (cs.point) {
+			cs.addAndDrawPoint((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
 		}
-		if (cs.point) {
-			if (event.ctrlKey) {
-				cs.deletePoint((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
-				drawWithoutInitialization();
-			} else if (cs.point) {
-				cs.addAndDrawPoint((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
-			}
-		}
-	}
-}
-
-// Включение и отключение линейки
-function toggleRuler() {
-	cs.toggleRuler();
-	if (cs.ruler) {
-		window.onmousemove = trace;
-		this.className = 'btn btn-success material-icons font-weight-bold';
-		document.getElementById('point').className = 'btn btn-outline-success material-icons font-weight-bold';
-	} else {
-		window.onmousemove = null;
-		drawWithoutInitialization();
-		this.className = 'btn btn-outline-success material-icons font-weight-bold';
 	}
 }
 
@@ -149,15 +129,27 @@ function toggleLock() {
 
 }
 
+function toggleBinding() {
+	if (cs.toggleBinding()) {
+		this.className = 'btn btn-success material-icons font-weight-bold';
+		this.textContent = 'location_searching';
+	} else {
+		this.className = 'btn btn-outline-success material-icons font-weight-bold';
+		this.textContent = 'location_disabled';
+	}
+}
+
 function togglePointMethod() {
 	if (soe.scanScale == 1) {
 		soe.scanScale = 3;
 		this.className = 'btn btn-success material-icons font-weight-bold';
 		this.textContent = 'blur_on';
+		cs.fillColorOfTheRangeOfValidValues = 'rgba(255, 69, 69, 1)';
 	} else {
 		soe.scanScale = 1;
 		this.className = 'btn btn-outline-success material-icons font-weight-bold';
 		this.textContent = 'blur_off';
+		cs.fillColorOfTheRangeOfValidValues = 'rgba(255, 69, 69, 0.4)';
 	}
 }
 
@@ -171,6 +163,21 @@ function toggleOpacity() {
 	} else {
 		panel.style.opacity = 1;
 		this.textContent = 'visibility_off';
+		this.className = 'btn btn-outline-success material-icons font-weight-bold';
+	}
+}
+
+// Включение и отключение линейки
+function toggleRuler() {
+	cs.toggleRuler();
+	if (cs.ruler) {
+		window.onmousemove = trace;
+		this.className = 'btn btn-success material-icons font-weight-bold';
+		document.getElementById('point').className = 'btn btn-outline-success material-icons font-weight-bold';
+	} else {
+		window.onmousemove = null;
+		window.onmouseup = null;
+		drawWithoutInitialization();
 		this.className = 'btn btn-outline-success material-icons font-weight-bold';
 	}
 }
@@ -195,18 +202,25 @@ function trace(event) {
 				}
 				if (rowIndex != undefined || colIndex != undefined) {
 					window.onmousemove = function(event) {
-						cs.rulerPoints[rowIndex][colIndex].x = (event.x - cs.centerX) / cs.scale;
-						cs.rulerPoints[rowIndex][colIndex].y = (cs.centerY - event.y) / cs.scale;
 						mouse.x = event.x;
 						mouse.y = event.y;
+						cs.rulerPoints[rowIndex][colIndex].x = (event.x - cs.centerX) / cs.scale;
+						cs.rulerPoints[rowIndex][colIndex].y = (cs.centerY - event.y) / cs.scale;
 						drawWithoutInitialization();
 					}
-					window.onmouseup = function() {
+					window.onmouseup = function(event) {
+						if (rowIndex != undefined && colIndex != undefined && (event.target.localName == 'div' || event.target.localName == 'canvas')) {
+							cs.changePointLocation(rowIndex, colIndex, (event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
+							rowIndex = colIndex = undefined;
+						}
 						window.onmousemove = trace;
 					}
 					break;
 				}
 			}
+		} else if (cs.ruler && (event.target.localName == 'div' || event.target.localName == 'canvas')) {
+			cs.addAPointToTheRuler((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
+			drawWithoutInitialization();
 		}
 	}
 }
@@ -303,16 +317,16 @@ function initTestCoefficients() {
 	let fields = document.getElementsByClassName('field');
 	let symbols = document.getElementsByClassName('symbol');
 
-	symbols[4].value = '>=';
-	symbols[5].value = '>=';
+	symbols[0].value = '>=';
+	symbols[1].value = '<=';
+	symbols[2].value = '<=';
+	symbols[3].value = '<=';
 
 	let fieldValues = [
-		[1, 2, 6],
-		[2, 1, 8],
-		[0, 1, 2],
-		[-1, 1, 1],
-		[1, 0, 0],
-		[0, 1, 0]
+		[1, 2, -13],
+		[2, 1, 16],
+		[0, 1, -2],
+		[-16, 3, -3]
 	];
 
 	for (let i = 0; i < fieldValues.length; i++) {
