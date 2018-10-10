@@ -103,9 +103,6 @@ class SystemOfEquations {
 		}
 		return points;
 	}
-	filter(points) {
-
-	}
 	update(scale, centerX, centerY) {
 		this.scale = scale;
 		this.centerX = centerX / this.scale;

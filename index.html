@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <section id="canvas">
+        <section>
             <canvas></canvas>
         </section>
         <section id="panel">
@@ -17,43 +17,41 @@
                 <div class="col-12">
                     <div class="form-group row">
                         <div class="col-12 text-center">
-                            <i id="reduce-grid" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Уменьшить масштаб сетки">exposure_neg_1</i>
-                            <i id="increase-grid" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Увеличить масштаб сетки">exposure_plus_1</i>
+                            <i id="reduce" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" data-title="Уменьшить систему уравнений">remove</i>
+                            <i id="increase" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Увеличить систему уравнений">add</i>
+                            <i id="random" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Случайные коэфиценты">casino</i>
+                             <i id="point-method" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Вкл/откл точечный метод заполнения области допустимых значений (Ускоряет поиск области допустимых значений, точность поиска снижается на 3 ед.)">blur_off</i>
+                            <i id="draw" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Построить график">create</i>
+                            <i id="fill" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Закрасить область допустимых значений">brush</i>
+                            <i id="line-type" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Изменить вид прямой: заштрихованная/полная">power_input</i>
+                            <i id="opacity" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Вкл/откл прозрачность">visibility_off</i>
+                            <i id="lock" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Закрепить/открепить панель упарвления">lock_open</i>
+                            <i class="btn btn-outline-success material-icons font-weight-bold" data-toggle="modal" data-target="#modalAboutCenter">contact_support</i>
+                            <i class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Нажмите и удерживайте для перемещения">drag_indicator</i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <div class="col-12 text-center">
+                            <i id="reduce-grid" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Уменьшить масштаб сетки">zoom_out</i>
+                            <i id="increase-grid" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Увеличить масштаб сетки">zoom_in</i>
                             <i id="grid" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Вкл/откл сетку">grid_on</i>
-                            
                             <i id="clear" class="btn btn-outline-danger material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Очистить поля">clear</i>
                             <i id="delete-all-lines" class="btn btn-outline-warning material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Удалить все графики уравнений">linear_scale</i>
                             <i id="delete-all-points" class="btn btn-outline-warning material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Удалить все точки">scatter_plot</i>
                             <i id="delete-all-rulers" class="btn btn-outline-warning material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Удалить все линейки">timeline</i>
                             <i id="deleteAll" class="btn btn-outline-danger material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Очистить систему координат">delete</i>
-                            <i id="gesture" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Вкл/откл рисование (Функция временно не работает)">gesture</i>
                             <i id="point" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Вкл/откл установку точек">scatter_plot</i>
                             <i id="ruler" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Вкл/откл установку линеек">timeline</i>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group row">
-                    <div class="col-12 text-center">
-                        <i id="reduce" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" data-title="Уменьшить систему уравнений">remove</i>
-                        <i id="increase" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Увеличить систему уравнений">add</i>
-                        <i id="random" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Случайные коэфиценты">casino</i>
-                        <i id="draw" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Построить график">create</i>
-                        <i id="fill" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Закрасить область допустимых значений">brush</i>
-                        <i id="line-type" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Изменить вид прямой: заштрихованная/полная">power_input</i>
-                        <i id="opacity" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Вкл/откл прозрачность">visibility</i>
-                        <i id="settings" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Настройки (Функция временно не работает)">build</i>
-                        <i id="lock" class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Блокировка (Функция временно не работает)">lock</i>
-                        <i class="btn btn-outline-success material-icons font-weight-bold" data-toggle="modal" data-target="#modalAboutCenter">contact_support</i>
-                        <i class="btn btn-outline-success material-icons font-weight-bold" data-toggle="tooltip" data-placement="bottom" title="Нажмите и удерживайте для перемещения">drag_indicator</i>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group row">
-                    <div class="col-12 text-center">
-                        <i id="minimize" class="btn text-warning material-icons font-weight-bold">expand_less</i>
+                <div class="col-12">
+                    <div class="form-group row">
+                        <div class="col-12 text-center">
+                            <i id="minimize" class="btn text-warning material-icons font-weight-bold">expand_less</i>
+                        </div>
                     </div>
                 </div>
             </div>

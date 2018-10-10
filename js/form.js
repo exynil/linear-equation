@@ -72,7 +72,7 @@ class Form {
 	// Восстановление коэффицентов
 	restoreData() {
 		let fields = document.getElementsByClassName('field');
-		for (let i = 0; i < fields.length - this.cols; i++) {
+		for (let i = 0; i < fields.length; i++) {
 			fields[i].value = this.fieldsValues[i];
 		}
 		let symbols = document.getElementsByClassName('symbol');
@@ -146,32 +146,5 @@ class Form {
 		}
 		// Добавляем сгенерированный код формы в блок формы
 		document.getElementById('form').innerHTML = code;
-
-		// let fields = document.getElementsByClassName('field');
-
-		// for (let i = 0; i < fields.length; i++) {
-		// 	fields[i].oninput = function() {
-		// 		draw(); // [внешняя функция]
-		// 	}
-		// }
-
-		// let deleteFieldButtons = document.getElementsByClassName('delete-field-button');
-
-		// for (let i = 0; i < deleteFieldButtons.length; i++) {
-		// 	deleteFieldButtons[i].onclick = function() {
-		// 		this.parentElement.parentElement.parentElement.parentElement.remove();
-		// 		form.rows--;
-		// 		draw(); // [внешняя функция]
-		// 	}
-		// }
-
-		// let colorFieldButtons = document.getElementsByClassName('color');
-
-		// for (let i = 0; i < colorFieldButtons.length; i++) {
-		// 	colorFieldButtons[i].onchange = function(event) {
-		// 		draw(); // [внешняя функция]
-		// 	}
-		// }
 	}
-	
 }

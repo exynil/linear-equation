@@ -11,6 +11,7 @@ class CoordinateSystem {
 		this.gridLineWidth = 0.5;
 		this.gridLineColor = 'gray';
 		this.numberColor = 'gray';
+		this.point = false;
 		this.pointColor = '#B114FF';
 		this.pointRadius = 5;
 		this.coordinatesOfPoints = [];
@@ -24,12 +25,12 @@ class CoordinateSystem {
 		this.rulerMainTextColor = '#27EBA4';
 		this.rulerMouseTextColor = '#FF9000';
 		this.ruler = false;
-		this.point = false;
 		this.rulerLength;
 		this.theNumberOfPointsInTheLine;
 		this.lineType = false;
 		this.fillColorOfTheRangeOfValidValues = 'rgba(255, 69, 69, 0.4)';
 		this.errorColor = '#F50338';
+		this.numberingTextSize = 10;
 	}
 	initialization(coordinatesOfLines, colors) {
 		this.coordinatesOfLines = coordinatesOfLines;
@@ -89,7 +90,7 @@ class CoordinateSystem {
 		this.ctx.save();
 		this.ctx.textAlign = 'right';
 		this.ctx.textBaseline = "top";
-		this.ctx.font = 'bold 10pt Courier New';
+		this.ctx.font = 'bold ' + this.numberingTextSize + 'pt Courier New';
 		this.ctx.fillStyle = this.numberColor;
 		// Прорисовка X положительных и X отрицательных
 		for (let i = this.scale; i < this.centerX; i += this.scale) {
@@ -165,19 +166,6 @@ class CoordinateSystem {
 			this.ctx.restore();
 			this.ctx.closePath();
 		}
-		// for (let i = 0; i < points.length; i++) {
-		// 	for (let j = i + 1; j < points.length; j++) {
-		// 		this.ctx.beginPath();
-		// 		this.ctx.save();
-		// 		this.ctx.moveTo(points[i].x, points[i].y);
-		// 		this.ctx.lineTo(points[j].x, points[j].y);
-		// 		this.ctx.strokeStyle = 'rgba(255, 104, 104, 1)';
-		// 		this.ctx.lineWidth = 1;
-		// 		this.ctx.stroke();
-		// 		this.ctx.restore();
-		// 		this.ctx.closePath();
-		// 	}
-		// }
 	}
 
 	addAPointToTheRuler(x, y) {
@@ -305,18 +293,31 @@ class CoordinateSystem {
 
 				let alpha = this.getAngle(a, b, c, d);
 
+				let alphaNull = this.getAngle(a, b, c, {
+					x: a.x + 1,
+					y: a.y
+				});
+
 				let radians = Math.acos(alpha);
+
+				let radiansNull = Math.acos(alphaNull);
 
 				// Прорисовка угла и окружности
 				this.ctx.beginPath();
 				this.ctx.save();
 				this.ctx.strokeStyle = this.rulerLineColor;
-				// this.ctx.arc(this.centerX + a.x * this.scale, this.centerY - a.y * this.scale, 50, Math.PI * 2 - alpha, false);
-
-				let startAngle = 0;
-				let endAngle = radians;
-				let anticlockwise = false;
-
+				let anticlockwise;
+				let startAngle;
+				let endAngle;
+				if (b.y >= a.y) {
+					startAngle = -radiansNull;
+					anticlockwise = false;
+					endAngle = radians - radiansNull;
+				} else if (b.y < a.y) {
+					startAngle = radiansNull;
+					anticlockwise = true;
+					endAngle = radiansNull - radians;
+				}
 
 				this.ctx.arc(this.centerX + a.x * this.scale, this.centerY - a.y * this.scale, 50, startAngle, endAngle, anticlockwise);
 				this.ctx.font = 'bold 11pt Courier New';
@@ -403,16 +404,25 @@ class CoordinateSystem {
 	}
 	// Включение и отключение сетки
 	toggleGrid() {
-		(this.gridStatus) ? this.gridStatus = false: this.gridStatus = true;
+		if (this.gridStatus) {
+			this.gridStatus = false;
+			return false;
+		}
+		else {
+			this.gridStatus = true
+			return true;
+		}
 	}
 	reducingGrid() {
-		if (this.scale > 20) {
+		if (this.scale > 10) {
 			this.scale -= 5;
+			this.numberingTextSize -= 2;
 		}
 	}
 	increasingGrid() {
 		if (this.scale < 150) {
 			this.scale += 5;
+			this.numberingTextSize += 2;
 		}
 	}
 	toggleLineType() {

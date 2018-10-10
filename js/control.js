@@ -37,7 +37,7 @@ addEventListener('keydown', function(event) {
 	}
 })
 
-document.onclick = onclick;
+
 
 function dragElement(elmnt) {
 	let x, y, left, top;
@@ -91,6 +91,7 @@ $(function() {
 	});
 })
 
+document.onclick = onclick;
 document.getElementById('reduce').onclick = reducingForm;
 document.getElementById('increase').onclick = increasingForm;
 document.getElementById('draw').onclick = draw;
@@ -109,3 +110,5 @@ document.getElementById('ruler').onclick = toggleRuler;
 document.getElementById('delete-all-rulers').onclick = deleteAllRulers;
 document.getElementById('line-type').onclick = toggleLineType;
 document.getElementById('minimize').onclick = minimizeControlPanel;
+document.getElementById('lock').onclick = toggleLock;
+document.getElementById('point-method').onclick = togglePointMethod;

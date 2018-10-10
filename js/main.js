@@ -135,6 +135,46 @@ function togglePoint() {
 	}
 }
 
+function toggleLock() {
+	if (this.className == 'btn btn-success material-icons font-weight-bold') {
+		this.className = 'btn btn-outline-success material-icons font-weight-bold';
+		dragElement(document.getElementById('panel'));
+		this.textContent = 'lock_open';
+
+	} else {
+		this.className = 'btn btn-success material-icons font-weight-bold';
+		document.getElementById('panel').onmousedown = null;
+		this.textContent = 'lock';
+	}
+
+}
+
+function togglePointMethod() {
+	if (soe.scanScale == 1) {
+		soe.scanScale = 3;
+		this.className = 'btn btn-success material-icons font-weight-bold';
+		this.textContent = 'blur_on';
+	} else {
+		soe.scanScale = 1;
+		this.className = 'btn btn-outline-success material-icons font-weight-bold';
+		this.textContent = 'blur_off';
+	}
+}
+
+// Включение и отключение прозрачности
+function toggleOpacity() {
+	let panel = document.getElementById('panel');
+	if (getComputedStyle(document.getElementById('panel')).opacity == '1') {
+		panel.style.opacity = 0.3;
+		this.className = 'btn btn-success material-icons font-weight-bold';
+		this.textContent = 'visibility';
+	} else {
+		panel.style.opacity = 1;
+		this.textContent = 'visibility_off';
+		this.className = 'btn btn-outline-success material-icons font-weight-bold';
+	}
+}
+
 // Отслеживание курсора во время включенной линейки
 function trace(event) {
 	mouse.x = event.x;
@@ -208,16 +248,6 @@ function deleteAllRulers() {
 	drawWithoutInitialization();
 }
 
-// Включение и отключение прозрачности
-function toggleOpacity() {
-	let panel = document.getElementById('panel');
-	if (getComputedStyle(document.getElementById('panel')).opacity == '1') {
-		panel.style.opacity = 0.3;
-	} else {
-		panel.style.opacity = 1;
-	}
-}
-
 // Заполнение полей случайными коэффицентами
 function randomCoefficients() {
 	form.randomCoefficients();
@@ -226,7 +256,13 @@ function randomCoefficients() {
 
 // Включение и отключение прозрачности
 function toggleGrid() {
-	cs.toggleGrid();
+	if (cs.toggleGrid()) {
+		this.textContent = 'grid_on';
+		this.className = 'btn btn-outline-success material-icons font-weight-bold';
+	} else {
+		this.textContent = 'grid_off';
+		this.className = 'btn btn-success material-icons font-weight-bold';
+	}
 	drawWithoutInitialization();
 }
 
