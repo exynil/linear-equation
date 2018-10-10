@@ -120,13 +120,11 @@ function toggleLock() {
 		this.className = 'btn btn-outline-success material-icons font-weight-bold';
 		dragElement(document.getElementById('panel'));
 		this.textContent = 'lock_open';
-
 	} else {
 		this.className = 'btn btn-success material-icons font-weight-bold';
 		document.getElementById('panel').onmousedown = null;
 		this.textContent = 'lock';
 	}
-
 }
 
 function toggleBinding() {

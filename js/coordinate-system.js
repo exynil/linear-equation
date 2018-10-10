@@ -13,7 +13,7 @@ class CoordinateSystem {
 		this.numberColor = 'gray';
 		this.point = false;
 		this.pointColor = '#B114FF';
-		this.pointRadius = 5;
+		this.pointRadius = 4;
 		this.coordinatesOfPoints = [];
 		this.coordinatesOfLines = [];
 		this.lineСolors = [];
@@ -281,7 +281,7 @@ class CoordinateSystem {
 				this.theNumberOfPointsInTheLine = this.rulerPoints[this.rulerPoints.length - 1].length;
 				this.ctx.beginPath();
 				this.ctx.save();
-				this.ctx.shadowBlur = 50;
+				this.ctx.shadowBlur = 5;
 				this.ctx.shadowColor = this.rulerMainTextColor;
 				this.ctx.font = '13pt Courier New';
 				this.ctx.textAlign = 'left';
@@ -382,7 +382,7 @@ class CoordinateSystem {
 		});
 		this.ctx.beginPath();
 		this.ctx.save();
-		this.ctx.shadowBlur = 30;
+		this.ctx.shadowBlur = 15;
 		this.ctx.shadowColor = this.pointColor;
 		this.ctx.arc(x * this.scale + this.centerX, this.centerY - y * this.scale, this.pointRadius, Math.PI * 2, false);
 		this.ctx.fillStyle = this.pointColor;
@@ -394,7 +394,7 @@ class CoordinateSystem {
 		for (let i = 0; i < this.coordinatesOfPoints.length; i++) {
 			this.ctx.beginPath();
 			this.ctx.save();
-			this.ctx.shadowBlur = 30;
+			this.ctx.shadowBlur = 15;
 			this.ctx.shadowColor = this.pointColor;
 			this.ctx.fillStyle = this.pointColor;
 			this.ctx.arc(this.coordinatesOfPoints[i].x * this.scale + this.centerX, this.centerY - this.coordinatesOfPoints[i].y * this.scale, this.pointRadius, Math.PI * 2, false);
