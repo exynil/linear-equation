@@ -281,7 +281,7 @@ class CoordinateSystem {
 				this.theNumberOfPointsInTheLine = this.rulerPoints[this.rulerPoints.length - 1].length;
 				this.ctx.beginPath();
 				this.ctx.save();
-				this.ctx.shadowBlur = 5;
+				this.ctx.shadowBlur = 50;
 				this.ctx.shadowColor = this.rulerMainTextColor;
 				this.ctx.font = '13pt Courier New';
 				this.ctx.textAlign = 'left';
