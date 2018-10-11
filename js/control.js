@@ -13,10 +13,10 @@ addEventListener('keypress', function(event) {
 	if (event.shiftKey) {
 		switch (event.keyCode) {
 			case 43:
-				increase();
+				increasingForm();
 				break;
 			case 45:
-				reduce();
+				reducingForm();
 				break;
 		}
 	} else {

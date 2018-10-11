@@ -186,7 +186,7 @@ function trace(event) {
 	mouse.y = event.y;
 	drawWithoutInitialization();
 	window.onmousedown = function(event) {
-		if (event.ctrlKey) {
+		if (event.ctrlKey && event.button == 0) {
 			let mx = (mouse.x - cs.centerX) / cs.scale;
 			let my = (cs.centerY - mouse.y) / cs.scale;
 			let rowIndex, colIndex;
@@ -216,7 +216,7 @@ function trace(event) {
 					break;
 				}
 			}
-		} else if (cs.ruler && (event.target.localName == 'div' || event.target.localName == 'canvas')) {
+		} else if (cs.ruler && event.button == 0 && (event.target.localName == 'div' || event.target.localName == 'canvas')) {
 			cs.addAPointToTheRuler((event.x - cs.centerX) / cs.scale, (cs.centerY - event.y) / cs.scale);
 			drawWithoutInitialization();
 		}
