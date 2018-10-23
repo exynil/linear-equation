@@ -101,6 +101,7 @@ document.getElementById('minimize').onclick = minimizeControlPanel;
 document.getElementById('lock').onclick = toggleLock;
 document.getElementById('point-method').onclick = togglePointMethod;
 document.getElementById('binding').onclick = toggleBinding;
+document.getElementById('fullscreen').onclick = toggleFullscreen;
 
 $(function() {
 	$('[data-toggle="tooltip"]').tooltip({

@@ -301,13 +301,52 @@ function toggleLineType() {
 // Сворачивание и развовачивание панели
 function minimizeControlPanel() {
 	let panel = document.getElementById('panel');
-	if (parseInt(getComputedStyle(document.getElementById('panel')).top) > -(parseInt(getComputedStyle(panel).height) - 200)) {
-		panel.style.top = -(parseInt(getComputedStyle(panel).height) - 200) + 'px';
+	if (parseInt(getComputedStyle(document.getElementById('panel')).top) > -(parseInt(getComputedStyle(panel).height) - 260)) {
+		panel.style.top = -(parseInt(getComputedStyle(panel).height) - 260) + 'px';
 		this.textContent = 'expand_more';
 	} else {
 		panel.style.top = 20 + 'px';
 		this.textContent = 'expand_less';
 	}
+}
+
+function toggleFullscreen () {
+	if (this.textContent == 'fullscreen') {
+		openFullscreen();
+		this.textContent = 'fullscreen_exit';
+		this.className = 'btn btn-success material-icons font-weight-bold';
+	} else {
+		closeFullscreen();
+		this.textContent = 'fullscreen';
+		this.className = 'btn btn-outline-success material-icons font-weight-bold';
+	}
+}
+
+// Вход в полноэкранный режим
+function openFullscreen() {
+	let html = document.querySelector('html');
+	if (html.requestFullscreen) {
+		html.requestFullscreen();
+	} else if (html.mozRequestFullScreen) { /* Firefox */
+		html.mozRequestFullScreen();
+	} else if (html.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+		html.webkitRequestFullscreen();
+	} else if (html.msRequestFullscreen) { /* IE/Edge */
+		html.msRequestFullscreen();
+	}
+}
+
+// Выход из полноэкранного режима
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.mozCancelFullScreen) { /* Firefox */
+    document.mozCancelFullScreen();
+  } else if (document.webkitExitFullscreen) { /* Chrome, Safari and Opera */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) { /* IE/Edge */
+    document.msExitFullscreen();
+  }
 }
 
 // Импорт коэффицентов для тестирования

@@ -47,7 +47,7 @@ canvas {
 	position: absolute;
 	top: 20px;
 	left: 20px;
-	width: 45rem;
+	width: 36rem;
 	z-index: 2;
 	transition: top 0.4s;
 	-webkit-user-select: none;
